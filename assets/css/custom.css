@@ -1,0 +1,134 @@
+/* Omer Nachmani portfolio overrides.
+   Keep custom edits here so updating the original HTML5 UP theme stays easy. */
+
+html { scroll-behavior: smooth; }
+
+body { background: #f7f7f7; }
+
+#header { padding-bottom: 6em; }
+
+#logo { margin-bottom: 0.35em; }
+
+.hero-kicker {
+	font-weight: 700;
+	letter-spacing: 0.24em;
+	font-size: 0.82em;
+	color: #777;
+	margin-bottom: 1.2em;
+}
+
+.hero-copy {
+	max-width: 850px;
+	margin: 0 auto 2em auto;
+	font-size: 1.05em;
+	line-height: 1.9em;
+	text-transform: none;
+	letter-spacing: 0.04em;
+}
+
+.hero-actions { justify-content: center; margin-bottom: 0; }
+
+.button.alt {
+	background: #3b3b3b;
+}
+
+.button.alt:hover { background: #4a4a4a; }
+
+.focus-card {
+	min-height: 255px;
+	padding: 1em 1.1em 0 1.1em;
+}
+
+.focus-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	background: #ed786a;
+	color: #fff;
+	font-size: 1.8em;
+	margin-bottom: 1.4em;
+	box-shadow: 0 0 0 8px #f4f4f4;
+}
+
+#banner { padding: 8em 0; }
+#banner p { font-size: 1.65em; }
+
+.section-anchor {
+	position: relative;
+	top: -70px;
+	visibility: hidden;
+}
+
+.about-block p:first-of-type { font-size: 1.05em; }
+
+.section-subtitle {
+	margin-top: -0.8em;
+	margin-bottom: 2.5em;
+	color: #888;
+}
+
+.project-card {
+	border: solid 1px #e3e3e3;
+	border-left: solid 5px #ed786a;
+	padding: 2em;
+	margin: 0 0 2em 0;
+	background: #fff;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.035);
+}
+
+.project-card.flagship {
+	background: #fafafa;
+	border-left-width: 7px;
+}
+
+.project-card h3 { margin: 0.45em 0 0.75em 0; }
+.project-card p { margin-bottom: 1em; }
+.project-card .actions { margin: 1.4em 0 0 0; }
+
+.project-meta { margin-bottom: 0.5em; }
+.tag {
+	display: inline-block;
+	font-size: 0.72em;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.32em 0.65em;
+	margin: 0 0.35em 0.35em 0;
+	background: #f0f0f0;
+	border-radius: 3px;
+	color: #666;
+}
+
+.project-stack { color: #666; font-size: 0.95em; }
+.compact-actions .button { padding: 0.8em 1.35em; font-size: 0.82em; }
+
+timeline-list .box.excerpt,
+.timeline-list .box.excerpt { margin-bottom: 0; }
+
+.skills-section { margin-top: 3em; }
+.skill-group {
+	padding: 1em 0 0.4em 0;
+	border-top: solid 1px #e5e5e5;
+}
+.skill-group:first-of-type { border-top: 0; }
+.skill-group strong { display: block; margin-bottom: 0.35em; color: #555; }
+.skill-group p { margin: 0 0 0.7em 0; }
+
+.contact-container { text-align: center; max-width: 880px; }
+.contact-actions { justify-content: center; }
+
+#footer { padding-top: 5em; }
+
+@media screen and (max-width: 736px) {
+	#header { padding-bottom: 4em; }
+	.hero-kicker { font-size: 0.72em; line-height: 1.8em; }
+	.hero-copy { font-size: 0.96em; padding: 0 0.5em; }
+	.desktop-only { display: none; }
+	.focus-card { min-height: 0; }
+	#banner { padding: 6em 1em; }
+	#banner p { font-size: 1.2em; letter-spacing: 2px; }
+	.project-card { padding: 1.5em; }
+}
