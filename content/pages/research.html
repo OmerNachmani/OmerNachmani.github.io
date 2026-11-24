@@ -1,0 +1,39 @@
+    <header class="page-intro">
+      <p class="eyebrow">Research and projects</p>
+      <h1>Research</h1>
+      <p class="lead">Current work in hardware security, alongside smaller projects in side-channel analysis, embedded systems, and engineering tools.</p>
+    </header>
+    <section aria-labelledby="research-platform-title">
+      <div class="section-heading"><h2 id="research-platform-title">Research platform</h2></div>
+      <article class="research-feature">
+        <div class="row-meta"><p class="eyebrow">Hardware security</p><p class="status">Ongoing research</p></div>
+        <div class="row-main">
+          <h3><a href="/research/riscv-side-channel.html">Power side-channel analysis on RISC-V</a></h3>
+          <p>A B.Sc. project examining leakage from software AES-128 on a PicoRV32 processor implemented on FPGA. I developed the RTL integration and established a baseline for hardware countermeasure experiments.</p>
+          <p>The baseline recovered all 16 key bytes in two sessions, with independent ciphertext correctness checks. The next stage is to compare hardware protections and their implementation costs.</p>
+          <p class="entry-topics">PicoRV32 · CW305 · ChipWhisperer Husky · RTL</p>
+          <p><a href="/research/riscv-side-channel.html">Read the project overview</a></p>
+        </div>
+      </article>
+    </section>
+    <section id="supporting-projects" aria-labelledby="supporting-projects-title">
+      <div class="section-heading"><h2 id="supporting-projects-title">Supporting projects</h2></div>
+      <div class="project-list">
+        <article class="project-row">
+          <div class="row-main"><h3><a href="/research/timing-side-channel.html">SimpleTimingSCA</a></h3><p>An Arduino PIN-checking demonstration with a Python host script. An early-exit comparison and an intentionally amplified timing difference illustrate how program behavior can reveal a secret.</p><p><a href="/research/timing-side-channel.html">Project overview</a> · <a href="https://github.com/OmerNachmani/SimpleTimingSCA">Source repository</a></p></div>
+          <p class="row-meta">Security demonstration<br>Arduino · Python</p>
+        </article>
+        <article class="project-row">
+          <div class="row-main"><h3><a href="https://github.com/OmerNachmani/LogAnalyzer">Totoro Log Scenario Finder</a></h3><p>A desktop utility that scans log files for JSON-defined scenarios, supports regular expressions, and exports matches to CSV. It turns repeated log inspection into a configurable analysis workflow.</p><p><a href="https://github.com/OmerNachmani/LogAnalyzer">Source repository</a></p></div>
+          <p class="row-meta">Engineering tools<br>Python · Log analysis</p>
+        </article>
+        <article class="project-row">
+          <div class="row-main"><h3><a href="https://github.com/OmerNachmani/Obstacle_Avoiding_Robot">EchoRover</a></h3><p>An Arduino Due robot with a non-blocking control loop, interrupt-driven ultrasonic sensing, servo scanning, software PWM motor control, and a multiplexed seven-segment display.</p><p><a href="https://github.com/OmerNachmani/Obstacle_Avoiding_Robot">Source repository</a></p></div>
+          <p class="row-meta">Embedded systems<br>Arduino Due · C++</p>
+        </article>
+      </div>
+    </section>
+    <section aria-labelledby="research-next-title">
+      <div class="section-heading"><h2 id="research-next-title">Further investigations</h2></div>
+      <p>Firmware reverse engineering, hardware interfaces, fault injection, wireless protocols, and application security are collected in the <a href="/writeups/">writeup index</a>. Those entries remain <em>To be continued…</em></p>
+    </section>

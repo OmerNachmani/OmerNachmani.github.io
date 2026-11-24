@@ -1,0 +1,51 @@
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/research/">Research</a><span aria-hidden="true"> / </span><span>RISC-V side-channel analysis</span></nav>
+    <header class="article-header">
+      <p class="eyebrow">Hardware security · Project overview</p>
+      <h1>Power side-channel analysis on RISC-V</h1>
+      <p class="lead">Studying the power leakage of software AES-128 running on a processor implemented on FPGA.</p>
+      <p class="entry-meta">Omer Nachmani · B.Sc. final project · Ongoing research</p>
+    </header>
+    <div class="article-layout">
+      <article class="prose">
+        <section id="overview">
+          <h2>Overview</h2>
+          <p>This project examines power leakage from software AES-128 executed by a PicoRV32 RISC-V processor on a CW305 FPGA. The processor runs the encryption code as software, so the study includes the behavior of the CPU and its surrounding hardware interfaces.</p>
+          <p>I developed the RTL integration and verification setup to establish a baseline for investigating hardware changes intended to reduce the leakage.</p>
+        </section>
+        <section id="platform">
+          <h2>Experimental platform</h2>
+          <table>
+            <caption>Components of the current research platform</caption>
+            <thead><tr><th scope="col">Component</th><th scope="col">Implementation</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Processor</th><td>PicoRV32 RISC-V</td></tr>
+              <tr><th scope="row">Workload</th><td>Software AES-128</td></tr>
+              <tr><th scope="row">FPGA target</th><td>ChipWhisperer CW305, Artix-7</td></tr>
+              <tr><th scope="row">Measurement equipment</th><td>ChipWhisperer Husky</td></tr>
+              <tr><th scope="row">Development and verification</th><td>RTL integration, Vivado, Verilator, GTKWave</td></tr>
+            </tbody>
+          </table>
+        </section>
+        <section id="baseline">
+          <h2>Baseline results</h2>
+          <p>The existing baseline recovered all 16 AES-128 key bytes in two sessions. Ciphertext correctness was checked independently.</p>
+          <p>The completed work includes processor and hardware-interface integration, RTL development, verification, and the baseline research. I performed the research and implementation completed to date.</p>
+        </section>
+        <section id="next-stage">
+          <h2>Hardware countermeasures</h2>
+          <p class="entry-status">To be continued…</p>
+          <p>The next stage is to implement and compare hardware additions intended to reduce exposure to power side-channel analysis. Planned comparisons will account for protection, execution time, and FPGA resource use.</p>
+          <p>Hardware protection comparisons remain pending. Candidate mechanisms and combinations will be investigated in later stages.</p>
+        </section>
+        <section id="writeup">
+          <h2>Technical writeup</h2>
+          <p class="entry-status">To be continued…</p>
+          <p>The detailed methodology, capture setup, analysis, and countermeasure results will be documented as the study develops.</p>
+          <p>Related planned work: <a href="/writeups/fault-injection-and-side-channel-studies.html">Fault injection and side-channel studies</a>.</p>
+        </section>
+      </article>
+      <aside class="toc" aria-labelledby="contents-title">
+        <h2 id="contents-title">On this page</h2>
+        <nav aria-label="Article contents"><ol><li><a href="#overview">Overview</a></li><li><a href="#platform">Experimental platform</a></li><li><a href="#baseline">Baseline results</a></li><li><a href="#next-stage">Hardware countermeasures</a></li><li><a href="#writeup">Technical writeup</a></li></ol></nav>
+      </aside>
+    </div>

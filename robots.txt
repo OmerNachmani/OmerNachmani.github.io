@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /content/
+Disallow: /templates/
+Disallow: /tools/
+Sitemap: https://omernachmani.github.io/sitemap.xml

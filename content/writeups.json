@@ -1,0 +1,351 @@
+[
+  {
+    "slug": "firmware-extraction-and-analysis",
+    "title": "Firmware Extraction and Analysis",
+    "category": "reverse",
+    "status": "planned",
+    "summary": "Planned notes on extracting firmware, identifying embedded filesystems, and examining binaries, configuration files, exposed services, and stored credentials.",
+    "scope": "This planned series will examine firmware extraction and filesystem analysis with binwalk, followed by inspection of binaries and configuration in embedded Linux images. Topics include hardcoded credentials, command injection, and exposed services.",
+    "topics": [
+      "Firmware extraction",
+      "binwalk and embedded filesystems",
+      "Hardcoded credentials",
+      "Command injection",
+      "Exposed services"
+    ],
+    "tags": [
+      "firmware",
+      "binwalk",
+      "embedded-linux",
+      "filesystems",
+      "configuration",
+      "credentials",
+      "command-injection"
+    ],
+    "related": []
+  },
+  {
+    "slug": "processor-architectures-and-binary-analysis",
+    "title": "Processor Architectures and Binary Analysis",
+    "category": "reverse",
+    "status": "planned",
+    "summary": "Planned studies of IoT processor architectures, memory layout, and calling conventions, connecting C/C++ programs with their compiled machine code.",
+    "scope": "This planned work covers ARM, MIPS, RISC-V, and Xtensa, including Xtensa-based ESP32 devices. Analysis will connect memory layout and calling conventions to C/C++ code, using Ghidra, IDA Pro or Binary Ninja, and radare2/rizin.",
+    "topics": [
+      "ARM, MIPS and RISC-V",
+      "Xtensa and ESP32",
+      "Memory layout and calling conventions",
+      "Ghidra and IDA Pro / Binary Ninja",
+      "radare2/rizin"
+    ],
+    "tags": [
+      "reverse-engineering",
+      "arm",
+      "mips",
+      "risc-v",
+      "xtensa",
+      "esp32",
+      "c",
+      "c++",
+      "ghidra",
+      "ida-pro",
+      "binary-ninja",
+      "radare2",
+      "rizin"
+    ],
+    "related": []
+  },
+  {
+    "slug": "firmware-emulation-and-debugging",
+    "title": "Firmware Emulation and Debugging",
+    "category": "reverse",
+    "status": "planned",
+    "summary": "Planned notes on emulating firmware with QEMU, debugging with GDB, and comparing static analysis with observable behavior in embedded Linux.",
+    "scope": "This planned series will investigate firmware emulation with QEMU and debugging with GDB. The work will connect static analysis with program execution, memory state, and the behavior of embedded Linux systems.",
+    "topics": [
+      "QEMU firmware emulation",
+      "GDB debugging",
+      "Embedded Linux",
+      "Static and dynamic analysis"
+    ],
+    "tags": [
+      "firmware",
+      "emulation",
+      "qemu",
+      "gdb",
+      "embedded-linux",
+      "debugging",
+      "dynamic-analysis"
+    ],
+    "related": []
+  },
+  {
+    "slug": "memory-corruption-and-exploitation",
+    "title": "Memory Corruption and Exploitation",
+    "category": "reverse",
+    "status": "planned",
+    "summary": "Planned writeups on reverse engineering and memory corruption, tracing buffer overflows from vulnerable C/C++ code to their effects during execution.",
+    "scope": "These planned investigations will examine memory corruption and exploitable behavior in binaries and embedded software. Future writeups will document the relevant C/C++ code, memory layout, calling conventions, and debugger observations.",
+    "topics": [
+      "Buffer overflows",
+      "C/C++ memory behavior",
+      "Binary exploitation",
+      "Memory layout and calling conventions",
+      "GDB"
+    ],
+    "tags": [
+      "exploitation",
+      "reverse-engineering",
+      "memory-corruption",
+      "buffer-overflow",
+      "c",
+      "c++",
+      "gdb"
+    ],
+    "related": []
+  },
+  {
+    "slug": "hardware-interfaces-and-board-access",
+    "title": "Hardware Interfaces and Board Access",
+    "category": "hardware",
+    "status": "planned",
+    "summary": "Planned notes on identifying board interfaces, collecting UART logs, and examining exposed console or debug access through UART, JTAG, and SWD.",
+    "scope": "This planned work will examine UART, SPI, I2C, JTAG, and SWD on existing boards, including log collection and investigation of exposed console or shell access. Proposed tools include USB-to-TTL adapters, logic analyzers, Saleae, Bus Pirate, and J-Link/OpenOCD.",
+    "topics": [
+      "UART and USB-to-TTL",
+      "SPI and I2C",
+      "JTAG / SWD and J-Link / OpenOCD",
+      "Logic analyzers and Saleae",
+      "Bus Pirate"
+    ],
+    "tags": [
+      "hardware",
+      "embedded",
+      "uart",
+      "spi",
+      "i2c",
+      "jtag",
+      "swd",
+      "usb-to-ttl",
+      "logic-analyzer",
+      "saleae",
+      "bus-pirate",
+      "j-link",
+      "openocd"
+    ],
+    "related": []
+  },
+  {
+    "slug": "external-flash-and-firmware-recovery",
+    "title": "External Flash and Firmware Recovery",
+    "category": "hardware",
+    "status": "planned",
+    "summary": "Planned work on reading SPI Flash and eMMC, recovering firmware and configuration, and examining how external storage affects device security.",
+    "scope": "This planned series will investigate reading SPI Flash and eMMC devices and analyzing their contents. Future notes will examine recovered firmware, configuration, and stored secrets, with the device setup and limitations documented alongside the analysis.",
+    "topics": [
+      "SPI Flash",
+      "eMMC",
+      "Firmware and configuration recovery",
+      "Stored secrets and device configuration"
+    ],
+    "tags": [
+      "hardware",
+      "spi-flash",
+      "emmc",
+      "firmware",
+      "memory",
+      "configuration",
+      "stored-secrets"
+    ],
+    "related": []
+  },
+  {
+    "slug": "fault-injection-and-side-channel-studies",
+    "title": "Fault Injection and Side-Channel Studies",
+    "category": "hardware",
+    "status": "planned",
+    "summary": "Planned experiments with voltage and clock glitching and power side-channel analysis, extending the existing RISC-V research with further investigation of physical attacks.",
+    "scope": "This planned series covers voltage and clock fault injection and DPA/CPA analysis using ChipWhisperer. The existing RISC-V baseline is documented separately; new experiments and hardware countermeasure comparisons remain planned.",
+    "topics": [
+      "Voltage glitching",
+      "Clock glitching",
+      "DPA and CPA",
+      "ChipWhisperer",
+      "Hardware countermeasures"
+    ],
+    "tags": [
+      "hardware",
+      "fault-injection",
+      "glitching",
+      "side-channel",
+      "power-analysis",
+      "dpa",
+      "cpa",
+      "chipwhisperer",
+      "risc-v"
+    ],
+    "related": [
+      {
+        "href": "/research/riscv-side-channel.html",
+        "label": "RISC-V side-channel research overview"
+      }
+    ]
+  },
+  {
+    "slug": "wireless-and-iot-protocol-analysis",
+    "title": "Wireless and IoT Protocol Analysis",
+    "category": "hardware",
+    "status": "planned",
+    "summary": "Planned notes on analyzing wireless IoT traffic across BLE, Zigbee, LoRa/LoRaWAN, and Sub-GHz links, including experiments with basic SDR equipment.",
+    "scope": "This planned work will examine wireless IoT communication beyond Wi-Fi, including BLE, Zigbee, LoRa, LoRaWAN, and Sub-GHz RF. Proposed experiments include traffic analysis and SDR work with HackRF or RTL-SDR.",
+    "topics": [
+      "BLE",
+      "Zigbee",
+      "LoRa and LoRaWAN",
+      "Sub-GHz RF",
+      "HackRF and RTL-SDR"
+    ],
+    "tags": [
+      "wireless",
+      "iot",
+      "ble",
+      "bluetooth-low-energy",
+      "zigbee",
+      "lora",
+      "lorawan",
+      "sub-ghz",
+      "rf",
+      "sdr",
+      "hackrf",
+      "rtl-sdr"
+    ],
+    "related": []
+  },
+  {
+    "slug": "secure-boot-and-firmware-protection",
+    "title": "Secure Boot and Firmware Protection",
+    "category": "hardware",
+    "status": "planned",
+    "summary": "Planned studies of secure boot, firmware encryption, and update mechanisms, examining how verification and external memory affect the protection of embedded devices.",
+    "scope": "This planned series will examine secure boot, encrypted firmware, and firmware update mechanisms. Future notes will consider how verification, external memory, and device communication influence the protection of code and stored data.",
+    "topics": [
+      "Secure boot",
+      "Firmware encryption",
+      "Firmware updates",
+      "External memory protections"
+    ],
+    "tags": [
+      "embedded",
+      "firmware",
+      "secure-boot",
+      "encryption",
+      "firmware-updates",
+      "flash",
+      "verification"
+    ],
+    "related": []
+  },
+  {
+    "slug": "application-security-writeups",
+    "title": "Application Security Writeups",
+    "category": "application",
+    "status": "planned",
+    "summary": "Planned assessments of application behavior, input handling, authentication, and configuration, with findings to be documented through reproducible technical writeups.",
+    "scope": "This planned section will cover penetration testing and application security. Future writeups will examine input handling, command injection, authentication, access control, configuration weaknesses, and exposed functionality, with the assessment scope and evidence documented for each investigation.",
+    "topics": [
+      "Penetration testing",
+      "Application security",
+      "Input handling and command injection",
+      "Authentication and access control",
+      "Configuration and exposed services"
+    ],
+    "tags": [
+      "penetration-testing",
+      "pentesting",
+      "application-security",
+      "appsec",
+      "command-injection",
+      "authentication",
+      "access-control",
+      "configuration"
+    ],
+    "related": []
+  },
+  {
+    "slug": "vulnerability-reports-and-disclosure",
+    "title": "Vulnerability Reports and Disclosure",
+    "category": "application",
+    "status": "planned",
+    "summary": "Planned documentation of vulnerability research, impact assessment, remediation, and coordinated disclosure, including CVE references only when identifiers have been assigned.",
+    "scope": "This planned section will document vulnerability investigations and coordinated disclosure when there are findings to report. Future reports will describe the affected context, supporting evidence, impact, remediation, and any assigned CVE identifiers.",
+    "topics": [
+      "Vulnerability research",
+      "Impact assessment",
+      "Remediation",
+      "Coordinated disclosure",
+      "CVE references"
+    ],
+    "tags": [
+      "vulnerability-research",
+      "disclosure",
+      "responsible-disclosure",
+      "coordinated-disclosure",
+      "cve",
+      "remediation",
+      "security-report"
+    ],
+    "related": []
+  },
+  {
+    "slug": "reverse-engineering-and-hardware-ctfs",
+    "title": "Reverse Engineering and Hardware CTFs",
+    "category": "lab",
+    "status": "planned",
+    "summary": "Planned solutions and notes from reverse engineering, exploitation, and hardware CTF challenges, with explanations of the methods used and lessons learned.",
+    "scope": "This planned collection will document reverse engineering, exploitation, hardware, and IoT CTF challenges. Each future writeup will explain the challenge context, investigation, relevant tools, and the steps needed to reproduce the result.",
+    "topics": [
+      "Reverse engineering CTFs",
+      "Exploitation challenges",
+      "Hardware and IoT challenges",
+      "Reproducible lab notes"
+    ],
+    "tags": [
+      "ctf",
+      "reverse-engineering",
+      "exploitation",
+      "hardware",
+      "iot",
+      "challenges",
+      "lab-notes"
+    ],
+    "related": []
+  },
+  {
+    "slug": "embedded-security-home-lab",
+    "title": "Embedded Security Home Lab",
+    "category": "lab",
+    "status": "planned",
+    "summary": "Planned documentation of a small embedded security lab, combining development boards, external flash, serial access, logic analysis, and basic SDR equipment.",
+    "scope": "The planned setup includes an ARM or ESP32 development board, external SPI Flash, a USB-to-TTL adapter, a logic analyzer, and a basic SDR. Future notes will document connections, test conditions, and repeatable experiments.",
+    "topics": [
+      "ARM and ESP32 development boards",
+      "External SPI Flash",
+      "USB-to-TTL and UART",
+      "Logic analyzer",
+      "Basic SDR"
+    ],
+    "tags": [
+      "home-lab",
+      "embedded",
+      "iot",
+      "arm",
+      "esp32",
+      "spi-flash",
+      "usb-to-ttl",
+      "uart",
+      "logic-analyzer",
+      "sdr"
+    ],
+    "related": []
+  }
+]

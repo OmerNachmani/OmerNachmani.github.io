@@ -1,3 +1,5 @@
-theme: jekyll-theme-minimal
-title: Omer's homepage
-description: Bookmark this to keep an eye on my project updates!
+# Site metadata. GitHub Pages serves the generated HTML because .nojekyll is present.
+title: Omer Nachmani
+description: Security research and technical notes on reverse engineering, exploitation, embedded systems, hardware, and application security.
+url: https://omernachmani.github.io
+author: Omer Nachmani
