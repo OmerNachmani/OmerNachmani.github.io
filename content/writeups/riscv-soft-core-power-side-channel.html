@@ -1,0 +1,124 @@
+<section>
+  <h2 id="overview">Overview</h2>
+  <p>This writeup documents a first-order correlation power analysis (CPA) against software AES-128 running on a PicoRV32 RISC-V soft-core. The target is the unprotected reference built for a B.Sc. final project on hardware side-channel protection. All measurements were taken on owned lab hardware using the public FIPS-197 test key.</p>
+  <p>Two independent physical sessions of 1,024 traces each recovered all 16 AES-128 key bytes. In both sessions the complete key was correct at a 96-trace prefix, and the recovered key reproduced every captured ciphertext. The analysis window, leakage model, and trace-prefix grid were fixed before the captures were scored.</p>
+</section>
+
+<section>
+  <h2 id="scope">Scope and threat model</h2>
+  <p>The experiment assumes an attacker with physical access who can trigger encryptions with chosen plaintexts and observe the board's power consumption. It does not model remote access, fault injection, or a protected implementation. The work is defensive and reproducible: the goal is to establish a measured baseline for comparing hardware countermeasures.</p>
+  <ul>
+    <li>Target: software AES-128 on a RISC-V soft-core implemented on an FPGA.</li>
+    <li>Key: the public FIPS-197 test key <code>000102030405060708090a0b0c0d0e0f</code>, compiled into the firmware image.</li>
+    <li>Access: chosen plaintexts through a USB register bank and a hardware trigger around the first-round SubBytes operation.</li>
+    <li>Out of scope: protected builds, other boards, other keys, and any claim about instruction-level leakage attribution.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="platform">Target platform</h2>
+  <table>
+    <caption>Measurement platform for the RISC-V AES-128 baseline</caption>
+    <thead><tr><th scope="col">Element</th><th scope="col">Implementation</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Processor</th><td>PicoRV32 (<code>RV32IM</code>, hardware multiply enabled; division, compressed instructions, and interrupts disabled)</td></tr>
+      <tr><th scope="row">Memory</th><td>32 KiB unified byte-writable BRAM holding program, data, and host mailboxes</td></tr>
+      <tr><th scope="row">Control and host ABI</th><td>Memory-mapped control window at <code>0xFF000000</code> (<code>TRIG_ON</code>, <code>TRIG_OFF</code>, <code>DONE</code>); USB register bank identified as <code>RSCV</code>, version 2</td></tr>
+      <tr><th scope="row">FPGA board</th><td>ChipWhisperer CW305, Artix-7 <code>XC7A100T</code>, PLL1 at 10 MHz, 1.0 V <code>VCCINT</code></td></tr>
+      <tr><th scope="row">Acquisition</th><td>ChipWhisperer Husky, 12-bit ADC at 40 MS/s, 16,000 samples per trace, 34 dB requested gain (33.807 dB readback)</td></tr>
+      <tr><th scope="row">Toolchain</th><td>RISC-V GCC (<code>rv32im</code>/<code>ilp32</code>, <code>-O0</code>), Vivado 2025.2, Icarus Verilog, Verilator, GTKWave, ChipWhisperer 6.0.0, Python CPA pipeline</td></tr>
+    </tbody>
+  </table>
+  <p>The FPGA design uses about 2,003 LUTs, 1,656 flip-flops, and 16 <code>RAMB36</code> blocks. The routed build closed timing with a worst negative slack of +0.033 ns and a worst hold slack of +0.034 ns.</p>
+</section>
+
+<section>
+  <h2 id="workload">Vulnerable workload and trigger</h2>
+  <p>The workload is a straightforward FIPS-197 AES-128 implementation compiled at <code>-O0</code> with a runtime key schedule. The S-box is a 256-byte table in memory, so the first round performs 16 byte-wise table lookups whose addresses depend on the plaintext and the key.</p>
+  <pre><code>static void sub_bytes(u8 s[16]) {
+    int i;
+    for (i = 0; i &lt; 16; i++) s[i] = sbox[s[i]];
+}</code></pre>
+  <p>A memory-mapped trigger is asserted immediately before the first-round <code>sub_bytes</code> call and cleared immediately after it. The resulting window measures 1,865 target cycles (186.5 µs), which is 7,460 ADC samples at 40 MS/s. A full encryption takes 181,088–181,096 cycles depending on the data-dependent <code>xtime</code> branches.</p>
+</section>
+<section>
+  <h2 id="acquisition">Acquisition campaign</h2>
+  <table>
+    <caption>Capture settings and session record</caption>
+    <thead><tr><th scope="col">Item</th><th scope="col">Value</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Target clock / core voltage</th><td>10 MHz (PLL1) / 1.0 V setpoint</td></tr>
+      <tr><th scope="row">ADC</th><td>40 MS/s, 12-bit, decimation 1, 16,000 samples (400 µs)</td></tr>
+      <tr><th scope="row">Trigger</th><td>TIO4 rising edge; first-round SubBytes window of 1,865 cycles (7,460 samples)</td></tr>
+      <tr><th scope="row">Sessions</th><td>Two physical acquisitions of 1,024 traces each, with a full USB reset and bitstream reprogramming between them</td></tr>
+      <tr><th scope="row">Plaintext schedules</th><td>Seeds 20261120 and 20261121; every byte position sees all 256 values exactly four times; zero overlap between sessions</td></tr>
+      <tr><th scope="row">Signal quality</th><td>Zero rail hits on every trace; clipping and low-gain checks enabled</td></tr>
+    </tbody>
+  </table>
+  <p>The balanced schedule makes each CPA hypothesis uniform across the dataset and lets one acquisition attack all 16 key bytes. The two schedules were generated independently and verified to share no plaintexts.</p>
+</section>
+
+<section>
+  <h2 id="method">Leakage model and CPA</h2>
+  <p>Each key byte is ranked independently with the Hamming-weight S-box model <code>HW(SBox(plaintext[i] XOR candidate))</code>. The correlation is computed over the full recorded first-round window (samples 0–7,459) for all 256 candidate byte values. No alignment, filtering, or other preprocessing is applied.</p>
+  <p>Results are reported over a prefix grid fixed in advance: 16, 32, 64, 96, 128, 256, 512, and 1,024 traces. Disjoint 512-trace halves are ranked separately as a corroboration check. Candidate selection never reads the reference key; the key is compared only after the ranking is final.</p>
+  <p>Acceptance is based on ciphertext reproduction, not on correlation alone: every captured plaintext is re-encrypted with a self-contained AES-128 implementation using only the recovered key and compared with the ciphertext recorded at capture time.</p>
+</section>
+
+<section>
+  <h2 id="results">Results</h2>
+  <table>
+    <caption>Full-key CPA results in two independent sessions</caption>
+    <thead><tr><th scope="col">Metric</th><th scope="col">Session 1</th><th scope="col">Session 2</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Recovered key</th><td colspan="2"><code>000102030405060708090a0b0c0d0e0f</code></td></tr>
+      <tr><th scope="row">Bytes recovered</th><td>16/16</td><td>16/16</td></tr>
+      <tr><th scope="row">Full key at trace prefix</th><td>96</td><td>96</td></tr>
+      <tr><th scope="row">Winner |r|</th><td>0.5736–0.6598</td><td>0.5561–0.6562</td></tr>
+      <tr><th scope="row">Best runner-up |r|</th><td>≈0.18</td><td>≈0.18</td></tr>
+      <tr><th scope="row">Margin over runner-up</th><td>0.4115–0.4968</td><td>0.4000–0.4870</td></tr>
+      <tr><th scope="row">Disjoint 512-trace halves</th><td>16/16 agreement</td><td>16/16 agreement</td></tr>
+      <tr><th scope="row">Ciphertext reproduction</th><td>1,024/1,024</td><td>1,024/1,024</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="/assets/images/writeups/riscv-cpa-fullkey-20261120.png" alt="Three-panel CPA plot for session 1 showing rank convergence, score margin over the best other candidate, and maximum absolute correlation for each recovered key byte.">
+    <figcaption>Session 1 full-key CPA over 1,024 traces. The panels show the rank of each recovered byte against the trace prefix, the score margin over the best other candidate, and the final correlation per key byte. Candidate selection never used the reference key.</figcaption>
+  </figure>
+  <p>No byte showed an exact top-score tie. The 16 winners were rank one at the full trace set in both sessions, and the recovered key matched the public reference key only when compared after ranking.</p>
+</section>
+<section>
+  <h2 id="localisation">Leakage localisation</h2>
+  <p>The winning correlation peaks occur at ADC samples 672, 1,108, 1,544, …, 7,212 in both sessions — 16 peaks spaced by exactly 436 samples. At 40 MS/s that is 10.9 µs, or 109 target cycles at 10 MHz. The SubBytes window contains 16 byte-wise table lookups in 1,865 cycles, about 117 cycles per byte, so the peaks line up with the S-box accesses.</p>
+  <p>Identical peak positions across two disjoint plaintext sets indicate that the observed structure belongs to the code and board rather than to a particular dataset. The result does not by itself identify a specific instruction or physical leakage mechanism.</p>
+</section>
+
+<section>
+  <h2 id="reproducibility">Reproducibility and hold-out</h2>
+  <p>Session 2 repeated the full bring-up: USB reset, bitstream programming, a fresh capture process, and a plaintext schedule with no overlap with session 1. It recovered the same 16 bytes at the same 96-trace prefix and reproduced all 1,024 ciphertexts.</p>
+  <p>A separate hold-out set of 16 plaintexts (seed 20261122) was verified absent from both attack schedules and captured with the same image. Re-encrypting those plaintexts with the recovered key reproduced 16/16 hold-out ciphertexts. The hold-out verification record reports identical SHA-256 values for the recovered and reference keys and no mismatches.</p>
+</section>
+
+<section>
+  <h2 id="limitations">Limitations</h2>
+  <ul>
+    <li>One board, one bitstream, one public key, one clock frequency, and one gain setting; the result is not a claim about other configurations.</li>
+    <li>First-order CPA with a single leakage model and no preprocessing; aligned, filtered, or higher-order analyses were not evaluated.</li>
+    <li>No instruction-level attribution beyond the measured peak spacing.</li>
+    <li>Taking a maximum over many samples and 256 candidates can produce chance peaks; ciphertext reproduction and two-session agreement are the safeguards here.</li>
+    <li>Ciphertext reproduction proves that the recovered key is the key the device used for these captures. It does not prove generalization across sessions, devices, or keys.</li>
+    <li>No protected implementation was measured, so no countermeasure claim is made.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="references">References</h2>
+  <ul>
+    <li>NIST, <a href="https://csrc.nist.gov/pubs/fips/197/final">FIPS 197: Advanced Encryption Standard (AES)</a>.</li>
+    <li>ChipWhisperer documentation, <a href="https://chipwhisperer.readthedocs.io/">chipwhisperer.readthedocs.io</a>.</li>
+    <li>YosysHQ, <a href="https://github.com/YosysHQ/picorv32">PicoRV32 RISC-V core</a>.</li>
+    <li><a href="/research/riscv-side-channel.html">Research overview: power side-channel attack on RISC-V</a>.</li>
+    <li><a href="/writeups/picorv32-soc-cw305-bringup.html">Bringing up the PicoRV32 SoC on the ChipWhisperer CW305</a>.</li>
+    <li><a href="/writeups/reproducible-sca-capture-pipeline.html">A reproducible capture and full-key CPA pipeline</a>.</li>
+  </ul>
+</section>

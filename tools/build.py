@@ -91,6 +91,20 @@ def load_writeups() -> list[dict]:
                 raise ValueError(f"Published body must be a file under content/: {slug}")
             if not source.read_text(encoding="utf-8").strip():
                 raise ValueError(f"Published entry has an empty body: {slug}")
+        outline = entry.get("outline")
+        if outline is not None:
+            if not isinstance(outline, list) or not outline:
+                raise ValueError(f"Outline must be a non-empty list: {slug}")
+            for section in outline:
+                if not isinstance(section, dict):
+                    raise ValueError(f"Outline section must be an object: {slug}")
+                heading = section.get("heading")
+                items = section.get("items")
+                if not isinstance(heading, str) or not heading.strip():
+                    raise ValueError(f"Outline section needs a heading: {slug}")
+                if not isinstance(items, list) or not items or not all(
+                        isinstance(item, str) and item.strip() for item in items):
+                    raise ValueError(f"Outline section needs non-empty items: {slug}")
     return entries
 
 
@@ -142,8 +156,21 @@ def writeup_body(entry: dict) -> str:
         ) + '</ul></section>'
     if entry["status"] == "planned":
         contents = '<section id="scope"><h2>Planned scope</h2><p>' + esc(entry["scope"]) + '</p></section>'
+        if entry.get("outline"):
+            outline = ''.join(
+                f'<section><h3>{esc(section["heading"])}</h3><ul>'
+                + ''.join(f'<li>{esc(item)}</li>' for item in section["items"])
+                + '</ul></section>'
+                for section in entry["outline"]
+            )
+            contents += ('<section id="outline"><h2>Draft outline</h2>'
+                         '<p>This is a structured draft. Each section will be completed with measured results, commands, and evidence as the work is carried out.</p>'
+                         + outline + '</section>')
         contents += '<section id="topics"><h2>Topics to cover</h2><ul>' + ''.join(f'<li>{esc(topic)}</li>' for topic in entry["topics"]) + '</ul></section>' + related
-        toc = '<li><a href="#scope">Planned scope</a></li><li><a href="#topics">Topics to cover</a></li>'
+        toc = '<li><a href="#scope">Planned scope</a></li>'
+        if entry.get("outline"):
+            toc += '<li><a href="#outline">Draft outline</a></li>'
+        toc += '<li><a href="#topics">Topics to cover</a></li>'
         if related:
             toc += '<li><a href="#related">Related work</a></li>'
     else:
@@ -167,7 +194,7 @@ def writeup_body(entry: dict) -> str:
 def build() -> dict[str, str]:
     output = {}
     pages = [
-        ("index.html", "/", "home", "home", "Hardware, embedded systems, and security", "Omer Nachmani's portfolio: electrical engineering, embedded systems, RTL design, RISC-V power side-channel research, and technical writeups."),
+        ("index.html", "/", "home", "home", "Electrical Engineer and Independent Security Researcher", "Omer Nachmani's portfolio: electrical engineering, embedded systems, RTL design, RISC-V power side-channel research, and technical writeups."),
         ("research/index.html", "/research/", "research", "research", "Research", "Ongoing hardware security research by Omer Nachmani, including power side-channel attacks on a RISC-V processor implemented on FPGA."),
         ("projects/index.html", "/projects/", "projects", "projects", "Projects", "Engineering and security projects by Omer Nachmani across embedded systems, microcontrollers, timing side channels, and developer tools."),
         ("about.html", "/about.html", "about", "about", "About", "Omer Nachmani — electrical engineer with experience in Intel system validation, Wi-Fi firmware and driver debugging, embedded systems, and independent security research."),
@@ -219,6 +246,9 @@ def main() -> int:
             target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / relative, target)
+        images = ROOT / "assets/images"
+        if images.is_dir():
+            shutil.copytree(images, destination / "assets/images", dirs_exist_ok=True)
     print(f"{'Verified' if args.check else 'Built'} {len(output)} files in {destination}")
     return 0
 

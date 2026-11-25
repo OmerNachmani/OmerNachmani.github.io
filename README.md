@@ -2,18 +2,20 @@
 
 Personal engineering portfolio, research overview, and technical notes at [omernachmani.github.io](https://omernachmani.github.io).
 
-The site covers electrical engineering, embedded systems and RTL design, hardware and application security, reverse engineering, and systems tooling. Current research and projects are separate from planned writeups. Every planned writeup entry is visibly marked **To be continued…**.
+The site covers electrical engineering, embedded systems and RTL design, hardware and application security, reverse engineering, and systems tooling. Published writeups document completed work from the RISC-V side-channel project; planned entries remain visibly marked **To be continued…** and carry structured draft outlines.
 
 ## Structure
 
 | Location | Purpose |
 | --- | --- |
 | `content/pages/` | Homepage, background, research overview, project archive, and project detail pages |
-| `content/writeups.json` | Writeup titles, categories, summaries, topics, and publication status |
+| `content/writeups.json` | Writeup titles, categories, summaries, structured draft outlines, and publication status |
+| `content/writeups/` | Published writeup body fragments |
 | `templates/base.html` | Shared page metadata, navigation, and footer |
 | `templates/writeup-content.html` | Starting outline for a technical writeup |
 | `assets/css/main.css` | Monochrome typography, layouts, print styles, and code formatting |
 | `assets/js/main.js` | Optional search and category filters for the writeup index |
+| `assets/images/` | Figures used in published writeups |
 | `tools/build.py` | Static HTML generator using the Python standard library |
 | `index.html`, `about.html`, `research/`, `projects/`, `writeups/` | Generated pages served by GitHub Pages |
 
@@ -46,12 +48,12 @@ python3 tools/build.py --output dist
 
 Add an entry to `content/writeups.json`, or edit an existing one. Supported categories are `reverse`, `hardware`, `application`, `embedded`, `systems`, and `lab`.
 
-A planned entry uses `status: "planned"`, a short `summary`, a `scope` paragraph, a `topics` list, and search `tags`. Leave publication dates out of planned entries. The generator adds **To be continued…** to both the index and the individual page. These pages are marked `noindex` and excluded from the sitemap until published.
+A planned entry uses `status: "planned"`, a short `summary`, a `scope` paragraph, a `topics` list, and search `tags`. Leave publication dates out of planned entries. A planned entry may also include an `outline`: a list of `{ "heading": "...", "items": ["..."] }` sections rendered as a structured draft outline. The generator adds **To be continued…** to both the index and the individual page. These pages are marked `noindex` and excluded from the sitemap until published.
 
 When the actual writeup is ready:
 
 1. Copy `templates/writeup-content.html` to `content/writeups/<slug>.html`.
-2. Replace the outline with the completed analysis. Keep useful heading IDs for the table of contents, and remove sections that do not apply.
+2. Replace the template outline with the completed analysis. Keep useful heading IDs for the table of contents, and remove sections that do not apply.
 3. In the matching JSON entry, set `status` to `published`, add the actual publication `date` in `YYYY-MM-DD` format, and set `body_file` to the fragment path, such as `content/writeups/<slug>.html`.
 4. Run `python3 tools/build.py` and review the result.
 5. Commit both the source and regenerated pages.

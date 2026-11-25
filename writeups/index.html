@@ -13,7 +13,7 @@
   <meta property="og:description" content="Technical writeups on reverse engineering, embedded and hardware security, application security, RTL design, embedded systems, systems tooling, and lab notes.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://omernachmani.github.io/writeups/">
-  <link rel="stylesheet" href="/assets/css/main.css?v=4be574dffdcf">
+  <link rel="stylesheet" href="/assets/css/main.css?v=61ad67e0745b">
   <script src="/assets/js/main.js?v=68755dee5a49" defer></script>
 </head>
 <body>
@@ -44,7 +44,25 @@
 <button type="button" data-filter="lab" aria-pressed="false">CTFs &amp; lab notes</button></div>
       <p id="filter-count" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
-    <ul class="entry-list" id="writeup-list"><li class="entry" data-entry data-categories="reverse" data-search="Firmware Extraction and Analysis Planned notes on extracting firmware, identifying embedded filesystems, and examining binaries, configuration files, exposed services, and stored credentials. This planned series will examine firmware extraction and filesystem analysis with binwalk, followed by inspection of binaries and configuration in embedded Linux images. Topics include hardcoded credentials, command injection, and exposed services. Reverse engineering firmware binwalk embedded-linux filesystems configuration credentials command-injection Firmware extraction binwalk and embedded filesystems Hardcoded credentials Command injection Exposed services">
+    <ul class="entry-list" id="writeup-list"><li class="entry" data-entry data-categories="hardware" data-search="Power Side-Channel Key Recovery on a RISC-V Soft-Core A reproducible first-round correlation power analysis of software AES-128 on a PicoRV32 SoC, recovering all 16 key bytes in two independent 1,024-trace sessions.  Embedded &amp; hardware security risc-v aes-128 cpa side-channel power-analysis chipwhisperer cw305 picorv32 fpga key-recovery">
+          <p class="entry-meta">Embedded &amp; hardware security</p>
+          <h2 class="entry-title"><a href="/writeups/riscv-soft-core-power-side-channel.html">Power Side-Channel Key Recovery on a RISC-V Soft-Core</a></h2>
+          <p class="entry-summary">A reproducible first-round correlation power analysis of software AES-128 on a PicoRV32 SoC, recovering all 16 key bytes in two independent 1,024-trace sessions.</p>
+          <p class="entry-meta"><time datetime="2026-11-25">25 November 2026</time></p>
+          <p class="entry-topics">risc-v · aes-128 · cpa · side-channel · power-analysis · chipwhisperer</p>
+        </li><li class="entry" data-entry data-categories="embedded" data-search="Bringing Up a PicoRV32 SoC on the ChipWhisperer CW305 RTL integration, simulation checks, timing-closed FPGA builds, and four hardware checkpoints for a measurable RISC-V AES-128 target.  Embedded systems &amp; RTL picorv32 cw305 fpga vivado rtl verilog risc-v bring-up verification timing">
+          <p class="entry-meta">Embedded systems &amp; RTL</p>
+          <h2 class="entry-title"><a href="/writeups/picorv32-soc-cw305-bringup.html">Bringing Up a PicoRV32 SoC on the ChipWhisperer CW305</a></h2>
+          <p class="entry-summary">RTL integration, simulation checks, timing-closed FPGA builds, and four hardware checkpoints for a measurable RISC-V AES-128 target.</p>
+          <p class="entry-meta"><time datetime="2026-11-25">25 November 2026</time></p>
+          <p class="entry-topics">picorv32 · cw305 · fpga · vivado · rtl · verilog</p>
+        </li><li class="entry" data-entry data-categories="systems" data-search="A Reproducible Capture and Full-Key CPA Pipeline Balanced plaintext schedules, immutable hashed evidence, independent acquisition audits, and two-session full-key recovery with a held-out verification.  Systems &amp; tooling reproducibility automation python cpa chipwhisperer verification evidence schedules">
+          <p class="entry-meta">Systems &amp; tooling</p>
+          <h2 class="entry-title"><a href="/writeups/reproducible-sca-capture-pipeline.html">A Reproducible Capture and Full-Key CPA Pipeline</a></h2>
+          <p class="entry-summary">Balanced plaintext schedules, immutable hashed evidence, independent acquisition audits, and two-session full-key recovery with a held-out verification.</p>
+          <p class="entry-meta"><time datetime="2026-11-25">25 November 2026</time></p>
+          <p class="entry-topics">reproducibility · automation · python · cpa · chipwhisperer · verification</p>
+        </li><li class="entry" data-entry data-categories="reverse" data-search="Firmware Extraction and Analysis Planned notes on extracting firmware, identifying embedded filesystems, and examining binaries, configuration files, exposed services, and stored credentials. This planned series will examine firmware extraction and filesystem analysis with binwalk, followed by inspection of binaries and configuration in embedded Linux images. Topics include hardcoded credentials, command injection, and exposed services. Reverse engineering firmware binwalk embedded-linux filesystems configuration credentials command-injection Firmware extraction binwalk and embedded filesystems Hardcoded credentials Command injection Exposed services">
           <p class="entry-meta">Reverse engineering</p>
           <h2 class="entry-title"><a href="/writeups/firmware-extraction-and-analysis.html">Firmware Extraction and Analysis</a></h2>
           <p class="entry-summary">Planned notes on extracting firmware, identifying embedded filesystems, and examining binaries, configuration files, exposed services, and stored credentials.</p>

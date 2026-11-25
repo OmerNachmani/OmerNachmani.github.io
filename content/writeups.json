@@ -1,5 +1,116 @@
 [
   {
+    "slug": "riscv-soft-core-power-side-channel",
+    "title": "Power Side-Channel Key Recovery on a RISC-V Soft-Core",
+    "category": "hardware",
+    "status": "published",
+    "date": "2026-11-25",
+    "summary": "A reproducible first-round correlation power analysis of software AES-128 on a PicoRV32 SoC, recovering all 16 key bytes in two independent 1,024-trace sessions.",
+    "body_file": "content/writeups/riscv-soft-core-power-side-channel.html",
+    "tags": [
+      "risc-v",
+      "aes-128",
+      "cpa",
+      "side-channel",
+      "power-analysis",
+      "chipwhisperer",
+      "cw305",
+      "picorv32",
+      "fpga",
+      "key-recovery"
+    ],
+    "related": [
+      {
+        "href": "/research/riscv-side-channel.html",
+        "label": "RISC-V side-channel research overview"
+      },
+      {
+        "href": "/writeups/picorv32-soc-cw305-bringup.html",
+        "label": "Bringing up the PicoRV32 SoC on the CW305"
+      },
+      {
+        "href": "/writeups/reproducible-sca-capture-pipeline.html",
+        "label": "Reproducible capture and full-key CPA pipeline"
+      },
+      {
+        "href": "/writeups/fault-injection-and-side-channel-studies.html",
+        "label": "Planned: fault injection and side-channel studies"
+      }
+    ]
+  },
+  {
+    "slug": "picorv32-soc-cw305-bringup",
+    "title": "Bringing Up a PicoRV32 SoC on the ChipWhisperer CW305",
+    "category": "embedded",
+    "status": "published",
+    "date": "2026-11-25",
+    "summary": "RTL integration, simulation checks, timing-closed FPGA builds, and four hardware checkpoints for a measurable RISC-V AES-128 target.",
+    "body_file": "content/writeups/picorv32-soc-cw305-bringup.html",
+    "tags": [
+      "picorv32",
+      "cw305",
+      "fpga",
+      "vivado",
+      "rtl",
+      "verilog",
+      "risc-v",
+      "bring-up",
+      "verification",
+      "timing"
+    ],
+    "related": [
+      {
+        "href": "/writeups/riscv-soft-core-power-side-channel.html",
+        "label": "Power side-channel key recovery on a RISC-V soft-core"
+      },
+      {
+        "href": "/writeups/reproducible-sca-capture-pipeline.html",
+        "label": "Reproducible capture and full-key CPA pipeline"
+      },
+      {
+        "href": "/research/riscv-side-channel.html",
+        "label": "RISC-V side-channel research overview"
+      },
+      {
+        "href": "/writeups/rtl-design-and-fpga-verification.html",
+        "label": "Planned: RTL design and FPGA verification"
+      }
+    ]
+  },
+  {
+    "slug": "reproducible-sca-capture-pipeline",
+    "title": "A Reproducible Capture and Full-Key CPA Pipeline",
+    "category": "systems",
+    "status": "published",
+    "date": "2026-11-25",
+    "summary": "Balanced plaintext schedules, immutable hashed evidence, independent acquisition audits, and two-session full-key recovery with a held-out verification.",
+    "body_file": "content/writeups/reproducible-sca-capture-pipeline.html",
+    "tags": [
+      "reproducibility",
+      "automation",
+      "python",
+      "cpa",
+      "chipwhisperer",
+      "verification",
+      "evidence",
+      "schedules"
+    ],
+    "related": [
+      {
+        "href": "/writeups/riscv-soft-core-power-side-channel.html",
+        "label": "Power side-channel key recovery on a RISC-V soft-core"
+      },
+      {
+        "href": "/writeups/picorv32-soc-cw305-bringup.html",
+        "label": "Bringing up the PicoRV32 SoC on the CW305"
+      },
+      {
+        "href": "/writeups/validation-automation-and-telemetry-pipelines.html",
+        "label": "Planned: validation automation and telemetry pipelines"
+      }
+    ]
+  },
+  {
     "slug": "firmware-extraction-and-analysis",
     "title": "Firmware Extraction and Analysis",
     "category": "reverse",
@@ -12,6 +123,48 @@
       "Hardcoded credentials",
       "Command injection",
       "Exposed services"
+    ],
+    "outline": [
+      {
+        "heading": "Target selection and legal scope",
+        "items": [
+          "Choose a device from the owned lab inventory and record its provenance.",
+          "Define what may be extracted, retained, and published.",
+          "Record board revision, firmware version, and access method."
+        ]
+      },
+      {
+        "heading": "Image acquisition",
+        "items": [
+          "Read external flash or eMMC with an in-circuit or desoldered setup.",
+          "Capture vendor update files and compare them with the on-device image.",
+          "Hash every dump and keep the original read-only."
+        ]
+      },
+      {
+        "heading": "Filesystem and signature triage",
+        "items": [
+          "Use entropy and signature scans to locate containers and compressed regions.",
+          "Extract embedded filesystems and document offsets and tool versions.",
+          "Identify the bootloader, kernel, and application layout."
+        ]
+      },
+      {
+        "heading": "Configuration and binary review",
+        "items": [
+          "Inspect init scripts, service definitions, and configuration files.",
+          "Look for hardcoded credentials, keys, and debug interfaces.",
+          "Trace exposed services and command paths into binaries."
+        ]
+      },
+      {
+        "heading": "Findings and disclosure",
+        "items": [
+          "Record each observation with its supporting artifact.",
+          "Assess impact and remediation options.",
+          "Follow coordinated disclosure before publishing sensitive details."
+        ]
+      }
     ],
     "tags": [
       "firmware",
@@ -37,6 +190,48 @@
       "Memory layout and calling conventions",
       "Ghidra and IDA Pro / Binary Ninja",
       "radare2/rizin"
+    ],
+    "outline": [
+      {
+        "heading": "Architecture survey",
+        "items": [
+          "Compare ARM, MIPS, RISC-V, and Xtensa conventions relevant to IoT firmware.",
+          "Record endianness, register width, and memory layout per target.",
+          "Select one architecture for a worked example."
+        ]
+      },
+      {
+        "heading": "Toolchain and loader",
+        "items": [
+          "Identify the image format and load address.",
+          "Set up the disassembler or decompiler with the correct processor profile.",
+          "Verify function boundaries against known entry points."
+        ]
+      },
+      {
+        "heading": "Memory layout and calling conventions",
+        "items": [
+          "Map code, data, stack, and heap regions.",
+          "Document argument passing, return values, and stack frames.",
+          "Connect C/C++ constructs to the generated instructions."
+        ]
+      },
+      {
+        "heading": "Static analysis workflow",
+        "items": [
+          "Annotate imported functions and library code.",
+          "Rename structures and variables as understanding improves.",
+          "Cross-reference strings, constants, and peripheral addresses."
+        ]
+      },
+      {
+        "heading": "Worked example and references",
+        "items": [
+          "Document one function from source-level intent to machine code.",
+          "Record tools, versions, and unresolved questions.",
+          "Link the relevant architecture manuals and ABI documents."
+        ]
+      }
     ],
     "tags": [
       "reverse-engineering",
@@ -68,6 +263,48 @@
       "Embedded Linux",
       "Static and dynamic analysis"
     ],
+    "outline": [
+      {
+        "heading": "Emulation target and constraints",
+        "items": [
+          "Choose a firmware image and a matching QEMU machine or board model.",
+          "Record missing peripherals and unsupported hardware blocks.",
+          "Define what the emulation is expected to prove."
+        ]
+      },
+      {
+        "heading": "Boot reconstruction",
+        "items": [
+          "Load the kernel or bare-metal image at the correct address.",
+          "Provide required memory-mapped devices and boot arguments.",
+          "Capture the first successful console output."
+        ]
+      },
+      {
+        "heading": "Debugging with GDB",
+        "items": [
+          "Attach GDB to the emulated target.",
+          "Set breakpoints on entry points and service handlers.",
+          "Inspect memory, registers, and stack state."
+        ]
+      },
+      {
+        "heading": "Static and dynamic comparison",
+        "items": [
+          "Compare static findings with runtime behavior.",
+          "Trace configuration parsing and authentication paths.",
+          "Record differences caused by missing hardware."
+        ]
+      },
+      {
+        "heading": "Limits and references",
+        "items": [
+          "State which conclusions depend on emulation fidelity.",
+          "Keep raw logs and command lines with the results.",
+          "Link QEMU and GDB documentation."
+        ]
+      }
+    ],
     "tags": [
       "firmware",
       "emulation",
@@ -93,6 +330,48 @@
       "Memory layout and calling conventions",
       "GDB"
     ],
+    "outline": [
+      {
+        "heading": "Vulnerable code and build",
+        "items": [
+          "Write or select a small C/C++ program with a controlled overflow.",
+          "Record compiler, flags, architecture, and mitigation settings.",
+          "Keep the source and binary hashes together."
+        ]
+      },
+      {
+        "heading": "Memory layout",
+        "items": [
+          "Map stack, heap, and global regions.",
+          "Identify the overwrite target and its distance from the input buffer.",
+          "Document endianness and pointer width."
+        ]
+      },
+      {
+        "heading": "Debugger observation",
+        "items": [
+          "Reproduce the crash under GDB.",
+          "Inspect registers and stack frames at the fault.",
+          "Confirm the overwritten control data."
+        ]
+      },
+      {
+        "heading": "Exploitability assessment",
+        "items": [
+          "Check stack canaries, NX, PIE, and ASLR.",
+          "Describe the theoretical control-flow effect without weaponizing it.",
+          "Record what a fixed build changes."
+        ]
+      },
+      {
+        "heading": "Scope and references",
+        "items": [
+          "Limit the work to owned binaries and lab targets.",
+          "Document the defensive lesson.",
+          "Link the relevant ABI and mitigation documentation."
+        ]
+      }
+    ],
     "tags": [
       "exploitation",
       "reverse-engineering",
@@ -117,6 +396,48 @@
       "JTAG / SWD and J-Link / OpenOCD",
       "Logic analyzers and Saleae",
       "Bus Pirate"
+    ],
+    "outline": [
+      {
+        "heading": "Board survey",
+        "items": [
+          "Photograph the board and record markings, headers, and test points.",
+          "Collect available schematics and service manuals.",
+          "Identify likely debug and console interfaces."
+        ]
+      },
+      {
+        "heading": "UART discovery",
+        "items": [
+          "Probe candidate pins with a logic analyzer.",
+          "Determine baud rate, framing, and pin order.",
+          "Capture boot logs and console prompts."
+        ]
+      },
+      {
+        "heading": "SPI, I2C, and debug ports",
+        "items": [
+          "Capture bus traffic during boot and normal operation.",
+          "Identify JTAG or SWD headers and try a read-only identify.",
+          "Record voltage levels and adapter settings."
+        ]
+      },
+      {
+        "heading": "Console and shell access",
+        "items": [
+          "Document any exposed console or debug shell.",
+          "Check authentication and available commands.",
+          "Assess impact within the owned-lab scope."
+        ]
+      },
+      {
+        "heading": "Safety and references",
+        "items": [
+          "Record grounding, voltage, and current limits.",
+          "Preserve the original state and note any changes.",
+          "Link interface standards and tool documentation."
+        ]
+      }
     ],
     "tags": [
       "hardware",
@@ -148,6 +469,48 @@
       "Firmware and configuration recovery",
       "Stored secrets and device configuration"
     ],
+    "outline": [
+      {
+        "heading": "Flash identification",
+        "items": [
+          "Read the part marking and locate the datasheet.",
+          "Determine voltage, package, and interface mode.",
+          "Identify in-circuit access points."
+        ]
+      },
+      {
+        "heading": "Reading the device",
+        "items": [
+          "Choose in-circuit or desoldered reading.",
+          "Capture multiple reads and compare hashes.",
+          "Document adapter wiring and clock settings."
+        ]
+      },
+      {
+        "heading": "Image validation",
+        "items": [
+          "Check size, erase state, and partition boundaries.",
+          "Compare against a vendor update image where available.",
+          "Record any inaccessible or protected regions."
+        ]
+      },
+      {
+        "heading": "Recovery and analysis",
+        "items": [
+          "Extract configuration and stored secrets with care.",
+          "Document the filesystem and boot layout.",
+          "Assess how external storage affects device security."
+        ]
+      },
+      {
+        "heading": "Restore and references",
+        "items": [
+          "Verify a known-good reflash before returning the board.",
+          "Keep the original dump read-only.",
+          "Link datasheets and recovery notes."
+        ]
+      }
+    ],
     "tags": [
       "hardware",
       "spi-flash",
@@ -173,6 +536,48 @@
       "ChipWhisperer",
       "Hardware countermeasures"
     ],
+    "outline": [
+      {
+        "heading": "Platform and controls",
+        "items": [
+          "Reuse the PicoRV32/CW305 reference and matched controls.",
+          "Declare keys, budgets, and acceptance criteria before acquisition.",
+          "Record build and dataset identities."
+        ]
+      },
+      {
+        "heading": "Voltage and clock glitching",
+        "items": [
+          "Sweep glitch width and offset within safe limits.",
+          "Record reset, lockup, and fault behavior.",
+          "Distinguish faults from invalid captures."
+        ]
+      },
+      {
+        "heading": "DPA and CPA extensions",
+        "items": [
+          "Extend the first-round CPA baseline to further rounds and models.",
+          "Compare raw, aligned, and preprocessed analysis.",
+          "Report ranks, recovery effort, and success fractions."
+        ]
+      },
+      {
+        "heading": "Hardware countermeasures",
+        "items": [
+          "Evaluate hiding, masking, shuffling, and scheduler candidates.",
+          "Use matched controls for every changed core or instruction path.",
+          "Record area, timing, power, and execution cost."
+        ]
+      },
+      {
+        "heading": "Evidence and limitations",
+        "items": [
+          "Keep negative and inconclusive results.",
+          "State the tested budget for every non-recovery claim.",
+          "Link the experiment matrix and candidate study."
+        ]
+      }
+    ],
     "tags": [
       "hardware",
       "fault-injection",
@@ -188,6 +593,10 @@
       {
         "href": "/research/riscv-side-channel.html",
         "label": "RISC-V side-channel research overview"
+      },
+      {
+        "href": "/writeups/riscv-soft-core-power-side-channel.html",
+        "label": "Power side-channel key recovery on a RISC-V soft-core"
       }
     ]
   },
@@ -204,6 +613,48 @@
       "LoRa and LoRaWAN",
       "Sub-GHz RF",
       "HackRF and RTL-SDR"
+    ],
+    "outline": [
+      {
+        "heading": "Lab setup and spectrum hygiene",
+        "items": [
+          "Define the owned devices and shielded test conditions.",
+          "Record regulatory limits and transmit power.",
+          "Log equipment, antennas, and sample rates."
+        ]
+      },
+      {
+        "heading": "BLE analysis",
+        "items": [
+          "Capture advertising and connection traffic.",
+          "Map services, characteristics, and pairing behavior.",
+          "Document encryption and authentication observations."
+        ]
+      },
+      {
+        "heading": "Zigbee and Sub-GHz",
+        "items": [
+          "Capture join and control traffic on a test network.",
+          "Identify frame formats and repeated payloads.",
+          "Record channel, PAN ID, and key configuration."
+        ]
+      },
+      {
+        "heading": "LoRa and LoRaWAN",
+        "items": [
+          "Capture uplink and downlink frames.",
+          "Inspect join procedure and payload structure.",
+          "State what can and cannot be inferred without keys."
+        ]
+      },
+      {
+        "heading": "Findings and references",
+        "items": [
+          "Compare protocol behavior with the specification.",
+          "Record defensive recommendations for owned deployments.",
+          "Link the relevant standards and tool documentation."
+        ]
+      }
     ],
     "tags": [
       "wireless",
@@ -234,6 +685,48 @@
       "Firmware updates",
       "External memory protections"
     ],
+    "outline": [
+      {
+        "heading": "Boot chain reconstruction",
+        "items": [
+          "Identify each boot stage and its storage location.",
+          "Document signatures, hashes, and version counters.",
+          "Map the handoff between stages."
+        ]
+      },
+      {
+        "heading": "Verification and encryption",
+        "items": [
+          "Inspect image headers and key identifiers.",
+          "Determine whether verification covers the full image.",
+          "Record encryption mode and key storage assumptions."
+        ]
+      },
+      {
+        "heading": "Update path",
+        "items": [
+          "Capture a vendor update in a lab setup.",
+          "Check authentication, rollback protection, and recovery mode.",
+          "Document failure handling."
+        ]
+      },
+      {
+        "heading": "External memory",
+        "items": [
+          "Test whether external flash content is integrity-checked.",
+          "Record readout and replay assumptions.",
+          "Compare with the documented threat model."
+        ]
+      },
+      {
+        "heading": "Findings and references",
+        "items": [
+          "Separate verified observations from hypotheses.",
+          "Record impact and remediation guidance.",
+          "Link the vendor documentation and relevant research."
+        ]
+      }
+    ],
     "tags": [
       "embedded",
       "firmware",
@@ -258,6 +751,48 @@
       "Input handling and command injection",
       "Authentication and access control",
       "Configuration and exposed services"
+    ],
+    "outline": [
+      {
+        "heading": "Scope and rules of engagement",
+        "items": [
+          "Define owned or authorized targets and test windows.",
+          "Record data-handling and disclosure rules.",
+          "Fix the assessment methodology before testing."
+        ]
+      },
+      {
+        "heading": "Reconnaissance",
+        "items": [
+          "Map endpoints, parameters, and authentication flows.",
+          "Record versions, headers, and exposed services.",
+          "Identify candidate input paths."
+        ]
+      },
+      {
+        "heading": "Input handling and injection",
+        "items": [
+          "Test command, argument, and template injection hypotheses.",
+          "Capture requests, responses, and server-side evidence.",
+          "Record false positives and negative results."
+        ]
+      },
+      {
+        "heading": "Authentication and configuration",
+        "items": [
+          "Review session handling, access control, and defaults.",
+          "Check exposed debug or administrative functionality.",
+          "Assess configuration weaknesses in context."
+        ]
+      },
+      {
+        "heading": "Reporting and references",
+        "items": [
+          "Write reproducible steps with evidence.",
+          "Rate impact and propose remediation.",
+          "Follow coordinated disclosure before publication."
+        ]
+      }
     ],
     "tags": [
       "penetration-testing",
@@ -285,6 +820,48 @@
       "Coordinated disclosure",
       "CVE references"
     ],
+    "outline": [
+      {
+        "heading": "Report structure",
+        "items": [
+          "Summarize the affected product, version, and configuration.",
+          "State the impact and the required preconditions.",
+          "List the evidence and reproduction steps."
+        ]
+      },
+      {
+        "heading": "Reproduction",
+        "items": [
+          "Provide a minimal, deterministic test case.",
+          "Record environment, versions, and observed output.",
+          "Separate confirmed behavior from inference."
+        ]
+      },
+      {
+        "heading": "Impact and remediation",
+        "items": [
+          "Describe realistic consequences within scope.",
+          "Propose concrete mitigations and verification steps.",
+          "Note residual risk after remediation."
+        ]
+      },
+      {
+        "heading": "Disclosure timeline",
+        "items": [
+          "Record the first contact and vendor responses.",
+          "Track embargo dates and agreed publication terms.",
+          "Assign CVE identifiers only after allocation."
+        ]
+      },
+      {
+        "heading": "Publication and references",
+        "items": [
+          "Publish only after coordination or the agreed deadline.",
+          "Keep sensitive details out of public artifacts.",
+          "Link the vendor advisory and supporting research."
+        ]
+      }
+    ],
     "tags": [
       "vulnerability-research",
       "disclosure",
@@ -308,6 +885,48 @@
       "Exploitation challenges",
       "Hardware and IoT challenges",
       "Reproducible lab notes"
+    ],
+    "outline": [
+      {
+        "heading": "Challenge context",
+        "items": [
+          "Record the event, category, and rules.",
+          "Note the provided files and hardware.",
+          "State the objective and time budget."
+        ]
+      },
+      {
+        "heading": "Initial triage",
+        "items": [
+          "Identify file types, architectures, and interfaces.",
+          "Extract strings, headers, and obvious constants.",
+          "Form a first hypothesis about the solution path."
+        ]
+      },
+      {
+        "heading": "Static and dynamic analysis",
+        "items": [
+          "Disassemble or decompile the relevant code.",
+          "Trace execution with a debugger or emulator.",
+          "Record dead ends as well as progress."
+        ]
+      },
+      {
+        "heading": "Hardware access",
+        "items": [
+          "Identify debug headers, flash, and peripheral buses.",
+          "Capture traffic during the challenge flow.",
+          "Use non-destructive access where possible."
+        ]
+      },
+      {
+        "heading": "Solution and lessons",
+        "items": [
+          "Document the shortest reproducible solution path.",
+          "Explain the key insight and the tools used.",
+          "Record what would change in a real assessment."
+        ]
+      }
     ],
     "tags": [
       "ctf",
@@ -333,6 +952,48 @@
       "USB-to-TTL and UART",
       "Logic analyzer",
       "Basic SDR"
+    ],
+    "outline": [
+      {
+        "heading": "Bench layout",
+        "items": [
+          "Define the bench area, power distribution, and grounding.",
+          "List instruments and their calibration status.",
+          "Record cable and adapter inventory."
+        ]
+      },
+      {
+        "heading": "Target boards",
+        "items": [
+          "Select ARM and ESP32 development boards.",
+          "Document boot modes, debug interfaces, and firmware tooling.",
+          "Prepare a known-good reference image."
+        ]
+      },
+      {
+        "heading": "External flash and serial access",
+        "items": [
+          "Wire SPI flash for read-only access.",
+          "Set up USB-to-TTL console capture.",
+          "Record pinouts and voltage levels."
+        ]
+      },
+      {
+        "heading": "Logic analysis and SDR",
+        "items": [
+          "Attach a logic analyzer to the target buses.",
+          "Configure a basic SDR receive chain.",
+          "Document sample rates, triggers, and limits."
+        ]
+      },
+      {
+        "heading": "Repeatable experiments",
+        "items": [
+          "Write a setup checklist and teardown procedure.",
+          "Store captures with hashes and notes.",
+          "Record safety limits and known failure modes."
+        ]
+      }
     ],
     "tags": [
       "home-lab",
@@ -362,6 +1023,48 @@
       "Waveform inspection with GTKWave",
       "Vivado synthesis, constraints, and timing closure"
     ],
+    "outline": [
+      {
+        "heading": "SoC integration",
+        "items": [
+          "Wrap the processor core with memory and memory-mapped control.",
+          "Define the host-facing register contract.",
+          "Record address maps and reset behavior."
+        ]
+      },
+      {
+        "heading": "Testbench architecture",
+        "items": [
+          "Build self-checking testbenches for known-answer tests.",
+          "Add directed register-protocol checks.",
+          "Separate machine checks from operator review."
+        ]
+      },
+      {
+        "heading": "Simulation and waveforms",
+        "items": [
+          "Run Icarus Verilog and Verilator flows.",
+          "Inspect trigger timing and cycle counts in GTKWave.",
+          "Keep saved layouts reproducible."
+        ]
+      },
+      {
+        "heading": "Synthesis and timing",
+        "items": [
+          "Constrain clocks and I/O for the target board.",
+          "Review utilization and failing endpoints.",
+          "Gate builds on DRC and timing results."
+        ]
+      },
+      {
+        "heading": "Bring-up and references",
+        "items": [
+          "Define hardware checkpoints before touching the board.",
+          "Record identity, voltage, and capture settings.",
+          "Link the published CW305 bring-up writeup."
+        ]
+      }
+    ],
     "tags": [
       "rtl",
       "verilog",
@@ -377,6 +1080,10 @@
       {
         "href": "/research/riscv-side-channel.html",
         "label": "Power side-channel attack on RISC-V"
+      },
+      {
+        "href": "/writeups/picorv32-soc-cw305-bringup.html",
+        "label": "Bringing up the PicoRV32 SoC on the CW305"
       }
     ]
   },
@@ -393,6 +1100,48 @@
       "PWM motor control and ADC sampling",
       "SPI, UART, and I2C peripheral drivers",
       "Bare-metal C/C++ on ARM, AVR, and 8051"
+    ],
+    "outline": [
+      {
+        "heading": "Non-blocking architecture",
+        "items": [
+          "Design a deterministic main loop with explicit state.",
+          "Avoid blocking delays in sensing and actuation paths.",
+          "Record timing budgets and worst-case paths."
+        ]
+      },
+      {
+        "heading": "Timers and interrupts",
+        "items": [
+          "Configure hardware timers for periodic work.",
+          "Keep interrupt handlers short and predictable.",
+          "Measure jitter and missed events."
+        ]
+      },
+      {
+        "heading": "PWM, ADC, and motion",
+        "items": [
+          "Implement software and hardware PWM outputs.",
+          "Sample analog inputs with defined resolution and timing.",
+          "Drive a motor stage with safe limits."
+        ]
+      },
+      {
+        "heading": "Serial peripherals",
+        "items": [
+          "Write SPI, UART, and I2C drivers for the target MCU.",
+          "Verify bus timing with a logic analyzer.",
+          "Document error handling and recovery."
+        ]
+      },
+      {
+        "heading": "Testing and references",
+        "items": [
+          "Record expected outputs for each peripheral.",
+          "Keep board-specific pin maps with the code.",
+          "Link the MCU reference manual and project sources."
+        ]
+      }
     ],
     "tags": [
       "embedded",
@@ -426,6 +1175,48 @@
       "Kernel and firmware log correlation",
       "Diagnosing wireless state-transition failures"
     ],
+    "outline": [
+      {
+        "heading": "Testbed",
+        "items": [
+          "Define the access point, client, and capture interfaces.",
+          "Record driver, firmware, and kernel versions.",
+          "Document the test topology and RF conditions."
+        ]
+      },
+      {
+        "heading": "Capture setup",
+        "items": [
+          "Configure monitor mode and channel selection.",
+          "Capture IEEE 802.11 management and data frames.",
+          "Record filters and capture duration."
+        ]
+      },
+      {
+        "heading": "Driver and firmware logs",
+        "items": [
+          "Enable the relevant kernel debug channels.",
+          "Correlate driver events with firmware state transitions.",
+          "Capture hostapd and supplicant logs."
+        ]
+      },
+      {
+        "heading": "Failure reproduction",
+        "items": [
+          "Define a minimal reproduction sequence.",
+          "Repeat the sequence across boots and configurations.",
+          "Record which variables change the outcome."
+        ]
+      },
+      {
+        "heading": "Analysis and references",
+        "items": [
+          "Compare observed frames with the expected state machine.",
+          "State the supported root-cause conclusion.",
+          "Link the relevant driver and standards documentation."
+        ]
+      }
+    ],
     "tags": [
       "linux",
       "wifi",
@@ -451,6 +1242,48 @@
       "Telemetry analysis with SQL and Airflow",
       "Automated regression detection and bug triage"
     ],
+    "outline": [
+      {
+        "heading": "Requirements",
+        "items": [
+          "Define the log sources, volumes, and retention needs.",
+          "Agree on the questions the pipeline must answer.",
+          "Record ownership and failure handling."
+        ]
+      },
+      {
+        "heading": "Log parsing",
+        "items": [
+          "Define scenario rules in a versioned configuration.",
+          "Parse heterogeneous logs into a common schema.",
+          "Emit CSV or database records with provenance."
+        ]
+      },
+      {
+        "heading": "Telemetry analysis",
+        "items": [
+          "Model the metrics and regression questions in SQL.",
+          "Build scheduled Airflow workflows for ingestion and checks.",
+          "Record data quality and missing-data behavior."
+        ]
+      },
+      {
+        "heading": "Regression detection",
+        "items": [
+          "Define thresholds and baseline windows.",
+          "Generate alerts with links to the underlying logs.",
+          "Track false positives and tuning changes."
+        ]
+      },
+      {
+        "heading": "Reporting and references",
+        "items": [
+          "Produce a reproducible summary for each run.",
+          "Keep configuration, code, and outputs together.",
+          "Link the tooling and schema documentation."
+        ]
+      }
+    ],
     "tags": [
       "python",
       "automation",
@@ -465,6 +1298,10 @@
       {
         "href": "/projects/",
         "label": "Project archive"
+      },
+      {
+        "href": "/writeups/reproducible-sca-capture-pipeline.html",
+        "label": "A reproducible capture and full-key CPA pipeline"
       }
     ]
   }

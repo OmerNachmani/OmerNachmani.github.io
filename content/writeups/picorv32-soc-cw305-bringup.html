@@ -1,0 +1,107 @@
+<section>
+  <h2 id="overview">Overview</h2>
+  <p>This writeup covers the RTL integration and hardware bring-up of a PicoRV32 RISC-V SoC on a ChipWhisperer CW305 Artix-7 board. The goal was a target that could run software AES-128, expose a deterministic first-round trigger, and accept chosen plaintexts through a host register bank — the measurement foundation for the power side-channel baseline.</p>
+  <p>The design was verified in simulation before the board was programmed. Four hardware checkpoints then confirmed identity, ciphertext correctness, cycle counts, trigger duration, and signal quality. The same build also exposed a logic-analyzer depth limit that shaped the capture configuration.</p>
+</section>
+
+<section>
+  <h2 id="architecture">Architecture</h2>
+  <table>
+    <caption>SoC and board integration</caption>
+    <thead><tr><th scope="col">Block</th><th scope="col">Implementation</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Processor</th><td>PicoRV32 <code>RV32IM</code> with hardware multiply; division, compressed instructions, and interrupts disabled</td></tr>
+      <tr><th scope="row">Memory</th><td>32 KiB unified byte-writable BRAM with a host port; program, data, and plaintext/ciphertext mailboxes share the array</td></tr>
+      <tr><th scope="row">Control</th><td>Memory-mapped <code>0xFF000000</code> window: <code>TRIG_ON</code>, <code>TRIG_OFF</code>, and <code>DONE</code>, plus a cycle counter</td></tr>
+      <tr><th scope="row">Host interface</th><td>CW305 register bank with <code>RSCV</code> identity, version 2, plaintext mailbox at <code>0x7000</code>, ciphertext mailbox at <code>0x7010</code></td></tr>
+      <tr><th scope="row">Board top</th><td>PLL1 at 10 MHz, MMCM USB deskew, ODDR clock forwarding, status LEDs, and pin/timing constraints</td></tr>
+    </tbody>
+  </table>
+  <p>The identity contract is checked by the host before any mailbox write: <code>ID = RSCV</code>, <code>VERSION = 2</code>, core 2, workload 2, byte-count width 7, and a window byte (0 for the wide trigger, 1 for SubBytes). A stale bitstream cannot be mistaken for the intended build.</p>
+</section>
+
+<section>
+  <h2 id="simulation">Simulation-first verification</h2>
+  <p>Before synthesis, the SoC and the register path were exercised in simulation:</p>
+  <ul>
+    <li>Four AES known-answer vectors matched OpenSSL, with <code>result=0</code> and 181,090–181,096 cycles per encryption.</li>
+    <li>The narrow SubBytes trigger measured 1,865 cycles on all four vectors, matching the hardware window exactly.</li>
+    <li>The register-protocol testbench passed 78 checks and ran three consecutive AES operations through the bank.</li>
+    <li>A hand-assembled trigger smoke test returned 42 with a 34-cycle pulse.</li>
+    <li>All 35 saved GTKWave signal paths resolved in the regenerated waveforms.</li>
+  </ul>
+  <figure>
+    <img src="/assets/images/writeups/picorv32-gtkwave-trigger.png" alt="GTKWave waveform showing the RISC-V trigger pulse and associated control signals during simulation.">
+    <figcaption>GTKWave view of the trigger smoke test. The saved layout resolves against the regenerated VCD, so the waveform inspection is reproducible.</figcaption>
+  </figure>
+</section>
+<section>
+  <h2 id="timing">Synthesis and timing</h2>
+  <table>
+    <caption>Vivado 2025.2 implementation results</caption>
+    <thead><tr><th scope="col">Item</th><th scope="col">Result</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Timing</th><td>WNS +0.033 ns, WHS +0.034 ns, zero failing endpoints</td></tr>
+      <tr><th scope="row">Resources</th><td>≈2,003 LUTs, 1,656 flip-flops, 109 CARRY4, 16 <code>RAMB36</code>, 1 MMCM, 1 ODDR</td></tr>
+      <tr><th scope="row">DRC</th><td>No errors or critical warnings; the build gates on this report</td></tr>
+      <tr><th scope="row">Plaintext/result paths</th><td>Bundled paths met with 3.5–3.9 ns and ≈8.0 ns of slack on a 10 ns bound</td></tr>
+    </tbody>
+  </table>
+  <p>The timing margin is thin. Any RTL or constraint change must rerun the full build and recheck the summary rather than assuming the previous result carries over.</p>
+</section>
+
+<section>
+  <h2 id="checkpoints">Hardware checkpoints</h2>
+  <table>
+    <caption>Operator-gated bring-up checkpoints on the CW305</caption>
+    <thead><tr><th scope="col">Checkpoint</th><th scope="col">Result</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">1 · AES smoke</th><td>10/10 runs, 181,096 cycles on every run, correct FIPS ciphertext, <code>RSCV</code> identity, LEDs and 1.01 V confirmed, 19.9 ms per run</td></tr>
+      <tr><th scope="row">2 · Varied plaintexts</th><td>20/20 ciphertexts matched the OpenSSL oracle; cycle counts matched simulation exactly (181,096, 181,090, 181,090, 181,092)</td></tr>
+      <tr><th scope="row">3 · Wide capture</th><td>3 traces at 64,000 samples; trigger duration 12,199 cycles (1,219,900 ns); zero rail hits; operator accepted the overlay</td></tr>
+      <tr><th scope="row">4 · SubBytes capture</th><td>10/10 runs with <code>window=1</code>; 3 traces at 16,000 samples; trigger duration 1,865 cycles (186,500 ns); ≈16 evenly spaced dips; zero rail hits</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="/assets/images/writeups/riscv-subbytes-trigger-20261120.png" alt="Power trace of the first-round SubBytes window showing about sixteen evenly spaced dips.">
+    <figcaption>First-round SubBytes capture on the CW305. The ≈11.6 µs spacing between dips corresponds to the 16 byte-wise S-box iterations inside the 1,865-cycle window.</figcaption>
+  </figure>
+  <p>The measured wide trigger duration equals the simulated 12,199 cycles, and the narrow window equals the simulated 1,865 cycles. The trigger bracket and the 10 MHz target clock are therefore confirmed on hardware, not only in simulation.</p>
+</section>
+
+<section>
+  <h2 id="logic-analyzer">Logic-analyzer depth limit</h2>
+  <p>The Husky logic analyzer stores 16,376 samples. A 10× oversampled record of the 12,199-cycle wide window would need 122,246 samples, and even the 1,865-cycle SubBytes window would need 18,650. The LA therefore runs at 1× the target clock, resolving each edge to about ±1 cycle. <code>HS1</code> cannot be observed by an LA sampling at its own rate, so the helper records it as constant and relies on <code>scope.clock.adc_locked</code> for clock presence.</p>
+  <p>Two failed attempts are preserved as evidence of the limit: a 10× depth error and a hardcoded 100 MHz LA guard. The final configuration uses the ADC counter for the measured window width and the LA only for edge-level context.</p>
+</section>
+<section>
+  <h2 id="safeguards">Identity and operational safeguards</h2>
+  <ul>
+    <li>The <code>RSCV</code> identity check runs before any register write, so a stale bitstream cannot be used silently.</li>
+    <li><code>--reset-usb --program</code> handles the known firmware 0.51 quirk of retaining an old bitstream.</li>
+    <li><code>MAX_CYCLES</code> is 400,000; the AES workload needs 181,096, so a missing completion is detected rather than hanging.</li>
+    <li>The cycle acceptance band is ±100 around 181,092 because the <code>xtime</code> branches are data-dependent; a missing AES round differs by about 18,000 cycles.</li>
+    <li>Firmware stays at 0.51 deliberately: an interrupted 0.53 update would require SAM-BA or JTAG recovery, and the identity gate already covers the known quirk.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="limitations">Limitations</h2>
+  <ul>
+    <li>One board, one target clock, one core voltage, and one toolchain; the timing and resource numbers are specific to this build.</li>
+    <li>The timing margin is 0.033 ns, so the result is sensitive to RTL, constraint, and tool-version changes.</li>
+    <li>The LA cannot oversample the windows, so sub-cycle timing is not resolved.</li>
+    <li>This writeup makes no side-channel or countermeasure claim; the attack results are documented separately.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="references">References</h2>
+  <ul>
+    <li><a href="/writeups/riscv-soft-core-power-side-channel.html">Power side-channel key recovery on a RISC-V soft-core</a>.</li>
+    <li><a href="/writeups/reproducible-sca-capture-pipeline.html">A reproducible capture and full-key CPA pipeline</a>.</li>
+    <li><a href="/research/riscv-side-channel.html">Research overview: power side-channel attack on RISC-V</a>.</li>
+    <li>YosysHQ, <a href="https://github.com/YosysHQ/picorv32">PicoRV32 RISC-V core</a>.</li>
+    <li>ChipWhisperer documentation, <a href="https://chipwhisperer.readthedocs.io/">chipwhisperer.readthedocs.io</a>.</li>
+  </ul>
+</section>

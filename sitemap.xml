@@ -7,4 +7,7 @@
   <url><loc>https://omernachmani.github.io/research/riscv-side-channel.html</loc></url>
   <url><loc>https://omernachmani.github.io/projects/timing-side-channel.html</loc></url>
   <url><loc>https://omernachmani.github.io/writeups/</loc></url>
+  <url><loc>https://omernachmani.github.io/writeups/riscv-soft-core-power-side-channel.html</loc></url>
+  <url><loc>https://omernachmani.github.io/writeups/picorv32-soc-cw305-bringup.html</loc></url>
+  <url><loc>https://omernachmani.github.io/writeups/reproducible-sca-capture-pipeline.html</loc></url>
 </urlset>

@@ -200,6 +200,9 @@ strong { font-weight: 700; }
 .prose li > p { margin-block-end: 0.65rem; }
 .prose blockquote { margin-inline: 0; padding-inline-start: 1.3rem; border-inline-start: 2px solid #777777; color: #3e3e3e; }
 .prose blockquote p:last-child { margin-block-end: 0; }
+.prose figure { margin-block: 1.8rem; }
+.prose figure img { display: block; width: 100%; border: 1px solid var(--rule); background: #ffffff; }
+.prose figcaption { margin-block-start: 0.6rem; color: var(--muted); font: 0.875rem/1.6 var(--sans); }
 .toc { position: sticky; inset-block-start: 2rem; padding-inline-start: 1.3rem; border-inline-start: 1px solid var(--rule); font: 0.875rem/1.6 var(--sans); }
 .toc h2, .toc h3 { margin-block: 0 0.9rem; font: 600 0.875rem/1.5 var(--sans); letter-spacing: 0; }
 .toc ul, .toc ol { margin: 0; padding: 0; list-style: none; }
@@ -310,7 +313,8 @@ details[open] summary { margin-block-end: 1rem; }
   .research-feature > .row-meta { margin-block-end: 0.7rem; }
   .intro-aside { margin-block: 1rem; padding-inline-start: 0; border: 0; }
   .prose { max-width: none; }
-  .project-row, .entry, .topic-grid > article, .definition-list, pre, blockquote { break-inside: avoid; }
+  .project-row, .entry, .topic-grid > article, .definition-list, pre, blockquote, .prose figure { break-inside: avoid; }
+  .prose figure img { border-color: #999999; }
   pre { white-space: pre-wrap; overflow-wrap: anywhere; border-color: #999999; font-size: 9pt; }
   .site-footer { margin-block-start: 2rem; }
 }

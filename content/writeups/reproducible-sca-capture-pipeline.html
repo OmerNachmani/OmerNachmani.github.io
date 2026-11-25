@@ -1,0 +1,100 @@
+<section>
+  <h2 id="overview">Overview</h2>
+  <p>This writeup describes the capture and analysis pipeline behind the RISC-V AES-128 baseline. The objective was not only to recover a key, but to make every step repeatable from immutable evidence: generated plaintext schedules, hashed capture logs, independent acquisition audits, a fixed analysis window, and a held-out verification set.</p>
+  <p>The pipeline recovered the full key in two independent 1,024-trace sessions and reproduced 16/16 held-out ciphertexts with the recovered key. Every capture, schedule, and report is identified by a hash.</p>
+</section>
+
+<section>
+  <h2 id="evidence">Evidence rules</h2>
+  <ul>
+    <li>Raw trace arrays are immutable: they are never edited, and each capture log records the hashes of its arrays.</li>
+    <li>Dataset descriptors link the capture log, plaintext schedule, bitstream, and configuration by SHA-256.</li>
+    <li>Machine checks and operator reviews are recorded separately and neither is promoted into the other.</li>
+    <li>Failed attempts are preserved rather than deleted.</li>
+    <li>Analysis outputs are written outside the raw-data directories and refuse to overwrite an existing report.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="schedules">Balanced plaintext schedules</h2>
+  <p>The schedule generator creates 1,024 plaintexts in which every byte position sees all 256 values exactly four times. Each byte position is permuted independently, then the full list is shuffled with a recorded seed. This keeps every CPA hypothesis uniform while letting one capture session attack all 16 key bytes.</p>
+  <pre><code>.venv/bin/python capture/scripts/make_riscv_aes_fullkey_schedule.py \
+    --output capture/configs/riscv_aes_fullkey_1024_20261120.json \
+    --repetitions 4 --seed 20261120</code></pre>
+  <p>Sessions 1 and 2 used seeds 20261120 and 20261121. The two schedules were checked for zero plaintext overlap before the second acquisition. The generator refuses to replace an existing schedule file, so a seed cannot be silently reused with different content.</p>
+</section>
+<section>
+  <h2 id="capture">Capture and identity checks</h2>
+  <p>Each acquisition starts with a full USB reset and bitstream programming. Before any mailbox write, the host reads the <code>RSCV</code> identity registers and confirms version, core, workload, byte-count width, and window. This prevents a stale or mismatched bitstream from being captured under the wrong label.</p>
+  <table>
+    <caption>Per-session capture record</caption>
+    <thead><tr><th scope="col">Field</th><th scope="col">Value</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">ADC</th><td>40 MS/s, 12-bit, 16,000 samples, 34 dB requested (33.807 dB readback)</td></tr>
+      <tr><th scope="row">Trigger window</th><td>First-round SubBytes, 1,865 cycles = 7,460 ADC samples</td></tr>
+      <tr><th scope="row">Signal checks</th><td>Zero rail hits on every trace; clipping and low-gain detection enabled</td></tr>
+      <tr><th scope="row">Evidence</th><td>Capture log with SHA-256, 1,024 raw wave arrays, 1,024 recorded ciphertexts</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2 id="audit">Independent acquisition audit</h2>
+  <p>Before any leakage analysis, a separate verifier reloads the capture log and every raw array. It re-encrypts the recorded plaintexts with the public test key and compares all 1,024 ciphertexts, then checks the raw-array hashes and the capture-log hash. The audit re-checked 1,024 ciphertexts and 5,120 raw arrays per session.</p>
+  <p>The public key is used only for this correctness check. It is never passed to the CPA ranking, and the recovered key is compared with it only after the ranking is complete.</p>
+</section>
+
+<section>
+  <h2 id="analysis">Full-key CPA automation</h2>
+  <p>The analysis script loads the audited traces and recorded plaintexts, computes first-round CPA for all 16 byte positions, and reports results over a trace-prefix grid fixed before the results are observed. The default model is <code>HW(SBox(plaintext[i] XOR candidate))</code>; the additive model is available as an alternative but cannot distinguish a candidate from its <code>0xFF</code> complement.</p>
+  <ul>
+    <li>No alignment, filtering, or rewriting of raw samples.</li>
+    <li>All 256 candidates are scored for every byte.</li>
+    <li>Prefix counts: 16, 32, 64, 96, 128, 256, 512, and 1,024 traces.</li>
+    <li>Disjoint 512-trace halves are ranked separately.</li>
+    <li>The recovered key must reproduce every captured ciphertext before the report is accepted.</li>
+  </ul>
+</section>
+<section>
+  <h2 id="reproduction">Two-session reproduction and hold-out</h2>
+  <table>
+    <caption>Reproducibility record</caption>
+    <thead><tr><th scope="col">Session</th><th scope="col">Seed</th><th scope="col">Overlap</th><th scope="col">Traces</th><th scope="col">Key</th><th scope="col">Reproduction</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>20261120</td><td>—</td><td>1,024</td><td>16/16 at 96 traces</td><td>1,024/1,024</td></tr>
+      <tr><td>2</td><td>20261121</td><td>0 plaintexts</td><td>1,024</td><td>16/16 at 96 traces</td><td>1,024/1,024</td></tr>
+    </tbody>
+  </table>
+  <p>The hold-out set contains 16 plaintexts generated with seed 20261122 and verified absent from both attack schedules. They were captured with the same image and re-encrypted with the recovered key only. All 16 ciphertexts matched; the verification record reports identical SHA-256 values for the recovered and reference keys and no mismatches. The held-out count exceeds the project's threshold of ten independent checks.</p>
+</section>
+
+<section>
+  <h2 id="failures">Preserved failures and operational lessons</h2>
+  <ul>
+    <li>The first 1,024-trace attempt produced a correct ciphertext but was rejected because its 181,088-cycle count fell outside the then-accepted 181,090–181,096 band. The band was widened to ±100 with that evidence, and the attempt is preserved in the archive.</li>
+    <li><code>MAX_CYCLES</code> must exceed 181,096; the configured 400,000 prevents a missing completion from hanging the run.</li>
+    <li>A missing AES round differs by about 18,000 cycles, far outside the accepted band.</li>
+    <li>The logic analyzer stores 16,376 samples, so it samples at 1× the target clock for these windows; the ADC counter supplies the measured width.</li>
+    <li>The <code>RSCV</code> identity gate runs before any write, so a stale bitstream cannot be captured silently.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="limitations">Limitations</h2>
+  <ul>
+    <li>The pipeline was exercised on one board, one bitstream, one public key, and one measurement configuration.</li>
+    <li>No trace alignment, preprocessing, TVLA, or higher-order analysis is included.</li>
+    <li>The hold-out verification uses the same image and board; it checks the recovered key, not generalization across devices.</li>
+    <li>Reproducibility here means the documented result can be regenerated from the recorded evidence under the same conditions.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="references">References</h2>
+  <ul>
+    <li><a href="/writeups/riscv-soft-core-power-side-channel.html">Power side-channel key recovery on a RISC-V soft-core</a>.</li>
+    <li><a href="/writeups/picorv32-soc-cw305-bringup.html">Bringing up the PicoRV32 SoC on the ChipWhisperer CW305</a>.</li>
+    <li><a href="/research/riscv-side-channel.html">Research overview: power side-channel attack on RISC-V</a>.</li>
+    <li>ChipWhisperer documentation, <a href="https://chipwhisperer.readthedocs.io/">chipwhisperer.readthedocs.io</a>.</li>
+  </ul>
+</section>
