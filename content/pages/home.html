@@ -1,18 +1,17 @@
     <section class="page-intro intro-grid" id="about" aria-labelledby="home-title">
       <div>
-        <p class="eyebrow">Research portfolio</p>
-        <h1 id="home-title">Security research<br>and technical notes</h1>
-        <p class="lead">I’m Omer Nachmani, a system engineer focused on hardware and embedded security. My current research examines power side-channel leakage from software AES running on a RISC-V processor.</p>
-        <p>This site brings together that work and future writeups on reverse engineering, exploitation, firmware, and application security.</p>
-        <p><a class="text-link" href="/research/">Explore the research</a></p>
+        <p class="eyebrow">Portfolio</p>
+        <h1 id="home-title">Hardware, embedded systems,<br>and security</h1>
+        <p class="lead">I’m Omer Nachmani, an electrical engineer working on hardware, embedded systems, and security. Alongside engineering projects in RTL, firmware, and tooling, my ongoing research examines power side-channel attacks against software AES running on a RISC-V processor.</p>
+        <p>Here I document my research, engineering projects, and technical writeups across embedded systems, digital design, reverse engineering, and security.</p>
+        <p><a class="text-link" href="/research/">Explore Research</a></p>
       </div>
-      <aside class="intro-aside" id="skills" aria-label="Research background">
+      <aside class="intro-aside" id="skills" aria-label="Background summary">
         <h2>In brief</h2>
         <dl class="definition-list">
-          <dt>Current work</dt><dd>RISC-V power side-channel analysis</dd>
-          <dt>Background</dt><dd>System validation and automation<br>Intel, 2022–2026</dd>
           <dt>Education</dt><dd>B.Sc. Electrical and Electronic Engineering<br>Shenkar, expected 2027</dd>
-          <dt>Based in</dt><dd>Tel Aviv, Israel</dd>
+          <dt>Background</dt><dd>Four years at Intel across Wi-Fi firmware and driver debugging, Linux wireless test infrastructure, and telemetry automation; earlier IT and systems administration at Ness Technologies and in military service.</dd>
+          <dt>Focus</dt><dd>Hardware and embedded security, RTL design, embedded systems, and engineering tooling.</dd>
         </dl>
         <a href="/about.html">About my work</a>
       </aside>
@@ -20,14 +19,14 @@
 
     <section id="projects" aria-labelledby="current-research-title">
       <div class="section-heading">
-        <h2 id="current-research-title">Current research</h2>
-        <a href="/research/">All projects</a>
+        <h2 id="current-research-title">Ongoing research</h2>
+        <a href="/research/">View research</a>
       </div>
       <article class="research-feature">
         <div class="row-meta"><p class="eyebrow">Hardware security</p><p class="status">Ongoing research</p></div>
         <div class="row-main">
-          <h3><a href="/research/riscv-side-channel.html">Power side-channel analysis on RISC-V</a></h3>
-          <p>Software AES-128 on a PicoRV32 processor, implemented on a CW305 Artix-7 FPGA and measured with ChipWhisperer Husky. The baseline recovered all 16 key bytes in two sessions; hardware countermeasure comparisons are planned.</p>
+          <h3><a href="/research/riscv-side-channel.html">Power side-channel attack on RISC-V</a></h3>
+          <p>Software AES-128 on a RISC-V PicoRV32 processor, implemented on a CW305 Artix-7 FPGA and measured with ChipWhisperer Husky. The baseline recovered all 16 key bytes in two sessions; hardware countermeasure comparisons are planned.</p>
           <p class="entry-topics">RISC-V · AES-128 · FPGA · ChipWhisperer</p>
           <a class="text-link" href="/research/riscv-side-channel.html">Read the project overview</a>
         </div>
@@ -39,41 +38,56 @@
         <h2 id="writing-title">Writeups</h2>
         <a href="/writeups/">Browse the index</a>
       </div>
-      <p>Future writeups are organized around the subjects below. Each planned entry is marked <em>To be continued…</em></p>
       <div class="topic-grid">
         <article>
-          <h3><a href="/writeups/?category=reverse">Reverse engineering and exploitation</a></h3>
+          <h3><a href="/writeups/?category=reverse">Reverse engineering</a></h3>
           <p>Firmware extraction, binary analysis, processor architectures, emulation, and memory corruption.</p>
-          <p class="entry-status">To be continued…</p>
         </article>
         <article>
-          <h3><a href="/writeups/?category=hardware">Embedded, IoT and hardware security</a></h3>
+          <h3><a href="/writeups/?category=hardware">Embedded &amp; hardware security</a></h3>
           <p>Hardware interfaces, external memory, physical attacks, secure boot, and wireless communication.</p>
-          <p class="entry-status">To be continued…</p>
         </article>
         <article>
-          <h3><a href="/writeups/?category=application">Penetration testing and application security</a></h3>
+          <h3><a href="/writeups/?category=application">Application security</a></h3>
           <p>Application behavior, configuration weaknesses, vulnerability research, and coordinated disclosure.</p>
-          <p class="entry-status">To be continued…</p>
         </article>
         <article>
-          <h3><a href="/writeups/?category=lab">CTFs and lab notes</a></h3>
+          <h3><a href="/writeups/?category=embedded">Embedded systems &amp; RTL</a></h3>
+          <p>Verilog design, FPGA verification, timing closure, and bare-metal microcontroller firmware.</p>
+        </article>
+        <article>
+          <h3><a href="/writeups/?category=systems">Systems &amp; tooling</a></h3>
+          <p>Linux wireless and driver debugging, telemetry pipelines, and engineering automation tools.</p>
+        </article>
+        <article>
+          <h3><a href="/writeups/?category=lab">CTFs &amp; lab notes</a></h3>
           <p>Reverse engineering and hardware challenges, an embedded security lab, and small tools for practical experiments.</p>
-          <p class="entry-status">To be continued…</p>
         </article>
       </div>
     </section>
 
     <section aria-labelledby="selected-work-title">
-      <div class="section-heading"><h2 id="selected-work-title">Selected work</h2><a href="/research/#supporting-projects">Project archive</a></div>
+      <div class="section-heading"><h2 id="selected-work-title">Selected work</h2><a href="/projects/">Project archive</a></div>
       <div class="project-list">
         <article class="project-row">
-          <div class="row-main"><h3><a href="/research/timing-side-channel.html">SimpleTimingSCA</a></h3><p>A small Arduino and Python demonstration of timing leakage in a deliberately vulnerable PIN comparison.</p></div>
-          <p class="row-meta">Timing side channels<br>Arduino and Python</p>
+          <div class="row-main"><h3><a href="/projects/timing-side-channel.html">SimpleTimingSCA</a></h3><p>A small Arduino and Python demonstration of timing leakage in a deliberately vulnerable PIN comparison.</p></div>
+          <p class="row-meta">Timing side channels<br>Arduino · Python</p>
+        </article>
+        <article class="project-row">
+          <div class="row-main"><h3><a href="https://github.com/OmerNachmani/Obstacle_Avoiding_Robot">EchoRover</a></h3><p>An Arduino Due robot with a non-blocking control loop, interrupt-driven ultrasonic sensing, servo scanning, software PWM motor control, and a multiplexed seven-segment display.</p></div>
+          <p class="row-meta">Embedded systems<br>Arduino Due · C++</p>
+        </article>
+        <article class="project-row">
+          <div class="row-main"><h3><a href="https://github.com/OmerNachmani/EnvironmentalMappingSystem">Environmental Mapping System</a></h3><p>An Arduino Uno real-time ultrasonic and servo scanner that maps object distance and angle onto a PCD8544 LCD screen.</p></div>
+          <p class="row-meta">Embedded systems<br>Arduino Uno · C++</p>
         </article>
         <article class="project-row">
           <div class="row-main"><h3><a href="https://github.com/OmerNachmani/LogAnalyzer">Totoro Log Scenario Finder</a></h3><p>A log-analysis utility using JSON-defined scenarios and regular expressions to produce CSV reports.</p></div>
           <p class="row-meta">Analysis tooling<br>Python</p>
+        </article>
+        <article class="project-row">
+          <div class="row-main"><h3><a href="https://github.com/OmerNachmani/EFM8">EFM8 Microcontroller Labs</a></h3><p>Bare-metal Silicon Labs EFM8UB2 (8051) firmware covering SPI memory LCD rendering, hardware timers, 8-bit PCA PWM, ADC joystick input, and L293D motor control.</p></div>
+          <p class="row-meta">Microcontrollers<br>EFM8UB2 · C</p>
         </article>
       </div>
     </section>

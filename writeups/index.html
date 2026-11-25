@@ -5,15 +5,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Writeups | Omer Nachmani</title>
-  <meta name="description" content="Planned technical writeups on reverse engineering, exploitation, embedded and hardware security, penetration testing, application security, and lab work.">
+  <meta name="description" content="Technical writeups on reverse engineering, embedded and hardware security, application security, RTL design, embedded systems, systems tooling, and lab notes.">
   <meta name="color-scheme" content="light">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://omernachmani.github.io/writeups/">
   <meta property="og:title" content="Writeups | Omer Nachmani">
-  <meta property="og:description" content="Planned technical writeups on reverse engineering, exploitation, embedded and hardware security, penetration testing, application security, and lab work.">
+  <meta property="og:description" content="Technical writeups on reverse engineering, embedded and hardware security, application security, RTL design, embedded systems, systems tooling, and lab notes.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://omernachmani.github.io/writeups/">
-  <link rel="stylesheet" href="/assets/css/main.css?v=143a66528c91">
+  <link rel="stylesheet" href="/assets/css/main.css?v=4be574dffdcf">
   <script src="/assets/js/main.js?v=68755dee5a49" defer></script>
 </head>
 <body>
@@ -23,6 +23,7 @@
       <a class="brand" href="/">Omer Nachmani</a>
       <nav class="site-nav" aria-label="Main navigation"><a href="/">Overview</a>
         <a href="/research/">Research</a>
+        <a href="/projects/">Projects</a>
         <a href="/writeups/" aria-current="page">Writeups</a>
         <a href="/about.html">About</a></nav>
     </div>
@@ -30,105 +31,127 @@
   <main class="container" id="main" tabindex="-1">
     <header class="page-intro">
       <p class="eyebrow">Technical writing</p><h1>Writeups</h1>
-      <p class="lead">Reverse engineering, exploitation, embedded and IoT security, and application security.</p>
-      <p>Planned entries are marked <em>To be continued…</em> Current project summaries are available in <a href="/research/">Research</a>.</p>
+      <p class="lead">Reverse engineering, embedded and hardware security, application security, RTL design, embedded systems, and engineering tooling.</p>
     </header>
     <div class="writing-controls" hidden>
-      <div><label for="writeup-search">Search topics and tools</label><input id="writeup-search" type="search" placeholder="For example: firmware, GDB, UART" autocomplete="off" aria-controls="writeup-list"></div>
+      <div><label for="writeup-search">Search topics and tools</label><input id="writeup-search" type="search" placeholder="For example: firmware, RISC-V, Verilog, GDB, UART" autocomplete="off" aria-controls="writeup-list"></div>
       <div class="filter-group" role="group" aria-label="Filter writeups by area"><button type="button" data-filter="all" aria-pressed="true">All topics</button>
 <button type="button" data-filter="reverse" aria-pressed="false">Reverse engineering</button>
-<button type="button" data-filter="hardware" aria-pressed="false">Embedded and hardware</button>
+<button type="button" data-filter="hardware" aria-pressed="false">Embedded &amp; hardware security</button>
 <button type="button" data-filter="application" aria-pressed="false">Application security</button>
-<button type="button" data-filter="lab" aria-pressed="false">CTFs and lab notes</button></div>
+<button type="button" data-filter="embedded" aria-pressed="false">Embedded systems &amp; RTL</button>
+<button type="button" data-filter="systems" aria-pressed="false">Systems &amp; tooling</button>
+<button type="button" data-filter="lab" aria-pressed="false">CTFs &amp; lab notes</button></div>
       <p id="filter-count" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
-    <ul class="entry-list" id="writeup-list"><li class="entry" data-entry data-categories="reverse" data-search="Firmware Extraction and Analysis Planned notes on extracting firmware, identifying embedded filesystems, and examining binaries, configuration files, exposed services, and stored credentials. This planned series will examine firmware extraction and filesystem analysis with binwalk, followed by inspection of binaries and configuration in embedded Linux images. Topics include hardcoded credentials, command injection, and exposed services. Reverse Engineering and Exploitation firmware binwalk embedded-linux filesystems configuration credentials command-injection Firmware extraction binwalk and embedded filesystems Hardcoded credentials Command injection Exposed services">
-          <p class="entry-meta">Reverse Engineering and Exploitation</p>
+    <ul class="entry-list" id="writeup-list"><li class="entry" data-entry data-categories="reverse" data-search="Firmware Extraction and Analysis Planned notes on extracting firmware, identifying embedded filesystems, and examining binaries, configuration files, exposed services, and stored credentials. This planned series will examine firmware extraction and filesystem analysis with binwalk, followed by inspection of binaries and configuration in embedded Linux images. Topics include hardcoded credentials, command injection, and exposed services. Reverse engineering firmware binwalk embedded-linux filesystems configuration credentials command-injection Firmware extraction binwalk and embedded filesystems Hardcoded credentials Command injection Exposed services">
+          <p class="entry-meta">Reverse engineering</p>
           <h2 class="entry-title"><a href="/writeups/firmware-extraction-and-analysis.html">Firmware Extraction and Analysis</a></h2>
           <p class="entry-summary">Planned notes on extracting firmware, identifying embedded filesystems, and examining binaries, configuration files, exposed services, and stored credentials.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">firmware · binwalk · embedded-linux · filesystems · configuration · credentials</p>
-        </li><li class="entry" data-entry data-categories="reverse" data-search="Processor Architectures and Binary Analysis Planned studies of IoT processor architectures, memory layout, and calling conventions, connecting C/C++ programs with their compiled machine code. This planned work covers ARM, MIPS, RISC-V, and Xtensa, including Xtensa-based ESP32 devices. Analysis will connect memory layout and calling conventions to C/C++ code, using Ghidra, IDA Pro or Binary Ninja, and radare2/rizin. Reverse Engineering and Exploitation reverse-engineering arm mips risc-v xtensa esp32 c c++ ghidra ida-pro binary-ninja radare2 rizin ARM, MIPS and RISC-V Xtensa and ESP32 Memory layout and calling conventions Ghidra and IDA Pro / Binary Ninja radare2/rizin">
-          <p class="entry-meta">Reverse Engineering and Exploitation</p>
+        </li><li class="entry" data-entry data-categories="reverse" data-search="Processor Architectures and Binary Analysis Planned studies of IoT processor architectures, memory layout, and calling conventions, connecting C/C++ programs with their compiled machine code. This planned work covers ARM, MIPS, RISC-V, and Xtensa, including Xtensa-based ESP32 devices. Analysis will connect memory layout and calling conventions to C/C++ code, using Ghidra, IDA Pro or Binary Ninja, and radare2/rizin. Reverse engineering reverse-engineering arm mips risc-v xtensa esp32 c c++ ghidra ida-pro binary-ninja radare2 rizin ARM, MIPS and RISC-V Xtensa and ESP32 Memory layout and calling conventions Ghidra and IDA Pro / Binary Ninja radare2/rizin">
+          <p class="entry-meta">Reverse engineering</p>
           <h2 class="entry-title"><a href="/writeups/processor-architectures-and-binary-analysis.html">Processor Architectures and Binary Analysis</a></h2>
           <p class="entry-summary">Planned studies of IoT processor architectures, memory layout, and calling conventions, connecting C/C++ programs with their compiled machine code.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">reverse-engineering · arm · mips · risc-v · xtensa · esp32</p>
-        </li><li class="entry" data-entry data-categories="reverse" data-search="Firmware Emulation and Debugging Planned notes on emulating firmware with QEMU, debugging with GDB, and comparing static analysis with observable behavior in embedded Linux. This planned series will investigate firmware emulation with QEMU and debugging with GDB. The work will connect static analysis with program execution, memory state, and the behavior of embedded Linux systems. Reverse Engineering and Exploitation firmware emulation qemu gdb embedded-linux debugging dynamic-analysis QEMU firmware emulation GDB debugging Embedded Linux Static and dynamic analysis">
-          <p class="entry-meta">Reverse Engineering and Exploitation</p>
+        </li><li class="entry" data-entry data-categories="reverse" data-search="Firmware Emulation and Debugging Planned notes on emulating firmware with QEMU, debugging with GDB, and comparing static analysis with observable behavior in embedded Linux. This planned series will investigate firmware emulation with QEMU and debugging with GDB. The work will connect static analysis with program execution, memory state, and the behavior of embedded Linux systems. Reverse engineering firmware emulation qemu gdb embedded-linux debugging dynamic-analysis QEMU firmware emulation GDB debugging Embedded Linux Static and dynamic analysis">
+          <p class="entry-meta">Reverse engineering</p>
           <h2 class="entry-title"><a href="/writeups/firmware-emulation-and-debugging.html">Firmware Emulation and Debugging</a></h2>
           <p class="entry-summary">Planned notes on emulating firmware with QEMU, debugging with GDB, and comparing static analysis with observable behavior in embedded Linux.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">firmware · emulation · qemu · gdb · embedded-linux · debugging</p>
-        </li><li class="entry" data-entry data-categories="reverse" data-search="Memory Corruption and Exploitation Planned writeups on reverse engineering and memory corruption, tracing buffer overflows from vulnerable C/C++ code to their effects during execution. These planned investigations will examine memory corruption and exploitable behavior in binaries and embedded software. Future writeups will document the relevant C/C++ code, memory layout, calling conventions, and debugger observations. Reverse Engineering and Exploitation exploitation reverse-engineering memory-corruption buffer-overflow c c++ gdb Buffer overflows C/C++ memory behavior Binary exploitation Memory layout and calling conventions GDB">
-          <p class="entry-meta">Reverse Engineering and Exploitation</p>
+        </li><li class="entry" data-entry data-categories="reverse" data-search="Memory Corruption and Exploitation Planned writeups on reverse engineering and memory corruption, tracing buffer overflows from vulnerable C/C++ code to their effects during execution. These planned investigations will examine memory corruption and exploitable behavior in binaries and embedded software. Future writeups will document the relevant C/C++ code, memory layout, calling conventions, and debugger observations. Reverse engineering exploitation reverse-engineering memory-corruption buffer-overflow c c++ gdb Buffer overflows C/C++ memory behavior Binary exploitation Memory layout and calling conventions GDB">
+          <p class="entry-meta">Reverse engineering</p>
           <h2 class="entry-title"><a href="/writeups/memory-corruption-and-exploitation.html">Memory Corruption and Exploitation</a></h2>
           <p class="entry-summary">Planned writeups on reverse engineering and memory corruption, tracing buffer overflows from vulnerable C/C++ code to their effects during execution.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">exploitation · reverse-engineering · memory-corruption · buffer-overflow · c · c++</p>
-        </li><li class="entry" data-entry data-categories="hardware" data-search="Hardware Interfaces and Board Access Planned notes on identifying board interfaces, collecting UART logs, and examining exposed console or debug access through UART, JTAG, and SWD. This planned work will examine UART, SPI, I2C, JTAG, and SWD on existing boards, including log collection and investigation of exposed console or shell access. Proposed tools include USB-to-TTL adapters, logic analyzers, Saleae, Bus Pirate, and J-Link/OpenOCD. Embedded, IoT and Hardware Security hardware embedded uart spi i2c jtag swd usb-to-ttl logic-analyzer saleae bus-pirate j-link openocd UART and USB-to-TTL SPI and I2C JTAG / SWD and J-Link / OpenOCD Logic analyzers and Saleae Bus Pirate">
-          <p class="entry-meta">Embedded, IoT and Hardware Security</p>
+        </li><li class="entry" data-entry data-categories="hardware" data-search="Hardware Interfaces and Board Access Planned notes on identifying board interfaces, collecting UART logs, and examining exposed console or debug access through UART, JTAG, and SWD. This planned work will examine UART, SPI, I2C, JTAG, and SWD on existing boards, including log collection and investigation of exposed console or shell access. Proposed tools include USB-to-TTL adapters, logic analyzers, Saleae, Bus Pirate, and J-Link/OpenOCD. Embedded &amp; hardware security hardware embedded uart spi i2c jtag swd usb-to-ttl logic-analyzer saleae bus-pirate j-link openocd UART and USB-to-TTL SPI and I2C JTAG / SWD and J-Link / OpenOCD Logic analyzers and Saleae Bus Pirate">
+          <p class="entry-meta">Embedded &amp; hardware security</p>
           <h2 class="entry-title"><a href="/writeups/hardware-interfaces-and-board-access.html">Hardware Interfaces and Board Access</a></h2>
           <p class="entry-summary">Planned notes on identifying board interfaces, collecting UART logs, and examining exposed console or debug access through UART, JTAG, and SWD.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">hardware · embedded · uart · spi · i2c · jtag</p>
-        </li><li class="entry" data-entry data-categories="hardware" data-search="External Flash and Firmware Recovery Planned work on reading SPI Flash and eMMC, recovering firmware and configuration, and examining how external storage affects device security. This planned series will investigate reading SPI Flash and eMMC devices and analyzing their contents. Future notes will examine recovered firmware, configuration, and stored secrets, with the device setup and limitations documented alongside the analysis. Embedded, IoT and Hardware Security hardware spi-flash emmc firmware memory configuration stored-secrets SPI Flash eMMC Firmware and configuration recovery Stored secrets and device configuration">
-          <p class="entry-meta">Embedded, IoT and Hardware Security</p>
+        </li><li class="entry" data-entry data-categories="hardware" data-search="External Flash and Firmware Recovery Planned work on reading SPI Flash and eMMC, recovering firmware and configuration, and examining how external storage affects device security. This planned series will investigate reading SPI Flash and eMMC devices and analyzing their contents. Future notes will examine recovered firmware, configuration, and stored secrets, with the device setup and limitations documented alongside the analysis. Embedded &amp; hardware security hardware spi-flash emmc firmware memory configuration stored-secrets SPI Flash eMMC Firmware and configuration recovery Stored secrets and device configuration">
+          <p class="entry-meta">Embedded &amp; hardware security</p>
           <h2 class="entry-title"><a href="/writeups/external-flash-and-firmware-recovery.html">External Flash and Firmware Recovery</a></h2>
           <p class="entry-summary">Planned work on reading SPI Flash and eMMC, recovering firmware and configuration, and examining how external storage affects device security.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">hardware · spi-flash · emmc · firmware · memory · configuration</p>
-        </li><li class="entry" data-entry data-categories="hardware" data-search="Fault Injection and Side-Channel Studies Planned experiments with voltage and clock glitching and power side-channel analysis, extending the existing RISC-V research with further investigation of physical attacks. This planned series covers voltage and clock fault injection and DPA/CPA analysis using ChipWhisperer. The existing RISC-V baseline is documented separately; new experiments and hardware countermeasure comparisons remain planned. Embedded, IoT and Hardware Security hardware fault-injection glitching side-channel power-analysis dpa cpa chipwhisperer risc-v Voltage glitching Clock glitching DPA and CPA ChipWhisperer Hardware countermeasures">
-          <p class="entry-meta">Embedded, IoT and Hardware Security</p>
+        </li><li class="entry" data-entry data-categories="hardware" data-search="Fault Injection and Side-Channel Studies Planned experiments with voltage and clock glitching and power side-channel analysis, extending the existing RISC-V research with further investigation of physical attacks. This planned series covers voltage and clock fault injection and DPA/CPA analysis using ChipWhisperer. The existing RISC-V baseline is documented separately; new experiments and hardware countermeasure comparisons remain planned. Embedded &amp; hardware security hardware fault-injection glitching side-channel power-analysis dpa cpa chipwhisperer risc-v Voltage glitching Clock glitching DPA and CPA ChipWhisperer Hardware countermeasures">
+          <p class="entry-meta">Embedded &amp; hardware security</p>
           <h2 class="entry-title"><a href="/writeups/fault-injection-and-side-channel-studies.html">Fault Injection and Side-Channel Studies</a></h2>
           <p class="entry-summary">Planned experiments with voltage and clock glitching and power side-channel analysis, extending the existing RISC-V research with further investigation of physical attacks.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">hardware · fault-injection · glitching · side-channel · power-analysis · dpa</p>
-        </li><li class="entry" data-entry data-categories="hardware" data-search="Wireless and IoT Protocol Analysis Planned notes on analyzing wireless IoT traffic across BLE, Zigbee, LoRa/LoRaWAN, and Sub-GHz links, including experiments with basic SDR equipment. This planned work will examine wireless IoT communication beyond Wi-Fi, including BLE, Zigbee, LoRa, LoRaWAN, and Sub-GHz RF. Proposed experiments include traffic analysis and SDR work with HackRF or RTL-SDR. Embedded, IoT and Hardware Security wireless iot ble bluetooth-low-energy zigbee lora lorawan sub-ghz rf sdr hackrf rtl-sdr BLE Zigbee LoRa and LoRaWAN Sub-GHz RF HackRF and RTL-SDR">
-          <p class="entry-meta">Embedded, IoT and Hardware Security</p>
+        </li><li class="entry" data-entry data-categories="hardware" data-search="Wireless and IoT Protocol Analysis Planned notes on analyzing wireless IoT traffic across BLE, Zigbee, LoRa/LoRaWAN, and Sub-GHz links, including experiments with basic SDR equipment. This planned work will examine wireless IoT communication beyond Wi-Fi, including BLE, Zigbee, LoRa, LoRaWAN, and Sub-GHz RF. Proposed experiments include traffic analysis and SDR work with HackRF or RTL-SDR. Embedded &amp; hardware security wireless iot ble bluetooth-low-energy zigbee lora lorawan sub-ghz rf sdr hackrf rtl-sdr BLE Zigbee LoRa and LoRaWAN Sub-GHz RF HackRF and RTL-SDR">
+          <p class="entry-meta">Embedded &amp; hardware security</p>
           <h2 class="entry-title"><a href="/writeups/wireless-and-iot-protocol-analysis.html">Wireless and IoT Protocol Analysis</a></h2>
           <p class="entry-summary">Planned notes on analyzing wireless IoT traffic across BLE, Zigbee, LoRa/LoRaWAN, and Sub-GHz links, including experiments with basic SDR equipment.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">wireless · iot · ble · bluetooth-low-energy · zigbee · lora</p>
-        </li><li class="entry" data-entry data-categories="hardware" data-search="Secure Boot and Firmware Protection Planned studies of secure boot, firmware encryption, and update mechanisms, examining how verification and external memory affect the protection of embedded devices. This planned series will examine secure boot, encrypted firmware, and firmware update mechanisms. Future notes will consider how verification, external memory, and device communication influence the protection of code and stored data. Embedded, IoT and Hardware Security embedded firmware secure-boot encryption firmware-updates flash verification Secure boot Firmware encryption Firmware updates External memory protections">
-          <p class="entry-meta">Embedded, IoT and Hardware Security</p>
+        </li><li class="entry" data-entry data-categories="hardware" data-search="Secure Boot and Firmware Protection Planned studies of secure boot, firmware encryption, and update mechanisms, examining how verification and external memory affect the protection of embedded devices. This planned series will examine secure boot, encrypted firmware, and firmware update mechanisms. Future notes will consider how verification, external memory, and device communication influence the protection of code and stored data. Embedded &amp; hardware security embedded firmware secure-boot encryption firmware-updates flash verification Secure boot Firmware encryption Firmware updates External memory protections">
+          <p class="entry-meta">Embedded &amp; hardware security</p>
           <h2 class="entry-title"><a href="/writeups/secure-boot-and-firmware-protection.html">Secure Boot and Firmware Protection</a></h2>
           <p class="entry-summary">Planned studies of secure boot, firmware encryption, and update mechanisms, examining how verification and external memory affect the protection of embedded devices.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">embedded · firmware · secure-boot · encryption · firmware-updates · flash</p>
-        </li><li class="entry" data-entry data-categories="application" data-search="Application Security Writeups Planned assessments of application behavior, input handling, authentication, and configuration, with findings to be documented through reproducible technical writeups. This planned section will cover penetration testing and application security. Future writeups will examine input handling, command injection, authentication, access control, configuration weaknesses, and exposed functionality, with the assessment scope and evidence documented for each investigation. Penetration Testing and Application Security penetration-testing pentesting application-security appsec command-injection authentication access-control configuration Penetration testing Application security Input handling and command injection Authentication and access control Configuration and exposed services">
-          <p class="entry-meta">Penetration Testing and Application Security</p>
+        </li><li class="entry" data-entry data-categories="application" data-search="Application Security Writeups Planned assessments of application behavior, input handling, authentication, and configuration, with findings to be documented through reproducible technical writeups. This planned section will cover penetration testing and application security. Future writeups will examine input handling, command injection, authentication, access control, configuration weaknesses, and exposed functionality, with the assessment scope and evidence documented for each investigation. Application security penetration-testing pentesting application-security appsec command-injection authentication access-control configuration Penetration testing Application security Input handling and command injection Authentication and access control Configuration and exposed services">
+          <p class="entry-meta">Application security</p>
           <h2 class="entry-title"><a href="/writeups/application-security-writeups.html">Application Security Writeups</a></h2>
           <p class="entry-summary">Planned assessments of application behavior, input handling, authentication, and configuration, with findings to be documented through reproducible technical writeups.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">penetration-testing · pentesting · application-security · appsec · command-injection · authentication</p>
-        </li><li class="entry" data-entry data-categories="application" data-search="Vulnerability Reports and Disclosure Planned documentation of vulnerability research, impact assessment, remediation, and coordinated disclosure, including CVE references only when identifiers have been assigned. This planned section will document vulnerability investigations and coordinated disclosure when there are findings to report. Future reports will describe the affected context, supporting evidence, impact, remediation, and any assigned CVE identifiers. Penetration Testing and Application Security vulnerability-research disclosure responsible-disclosure coordinated-disclosure cve remediation security-report Vulnerability research Impact assessment Remediation Coordinated disclosure CVE references">
-          <p class="entry-meta">Penetration Testing and Application Security</p>
+        </li><li class="entry" data-entry data-categories="application" data-search="Vulnerability Reports and Disclosure Planned documentation of vulnerability research, impact assessment, remediation, and coordinated disclosure, including CVE references only when identifiers have been assigned. This planned section will document vulnerability investigations and coordinated disclosure when there are findings to report. Future reports will describe the affected context, supporting evidence, impact, remediation, and any assigned CVE identifiers. Application security vulnerability-research disclosure responsible-disclosure coordinated-disclosure cve remediation security-report Vulnerability research Impact assessment Remediation Coordinated disclosure CVE references">
+          <p class="entry-meta">Application security</p>
           <h2 class="entry-title"><a href="/writeups/vulnerability-reports-and-disclosure.html">Vulnerability Reports and Disclosure</a></h2>
           <p class="entry-summary">Planned documentation of vulnerability research, impact assessment, remediation, and coordinated disclosure, including CVE references only when identifiers have been assigned.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">vulnerability-research · disclosure · responsible-disclosure · coordinated-disclosure · cve · remediation</p>
-        </li><li class="entry" data-entry data-categories="lab" data-search="Reverse Engineering and Hardware CTFs Planned solutions and notes from reverse engineering, exploitation, and hardware CTF challenges, with explanations of the methods used and lessons learned. This planned collection will document reverse engineering, exploitation, hardware, and IoT CTF challenges. Each future writeup will explain the challenge context, investigation, relevant tools, and the steps needed to reproduce the result. CTFs and Lab Notes ctf reverse-engineering exploitation hardware iot challenges lab-notes Reverse engineering CTFs Exploitation challenges Hardware and IoT challenges Reproducible lab notes">
-          <p class="entry-meta">CTFs and Lab Notes</p>
+        </li><li class="entry" data-entry data-categories="lab" data-search="Reverse Engineering and Hardware CTFs Planned solutions and notes from reverse engineering, exploitation, and hardware CTF challenges, with explanations of the methods used and lessons learned. This planned collection will document reverse engineering, exploitation, hardware, and IoT CTF challenges. Each future writeup will explain the challenge context, investigation, relevant tools, and the steps needed to reproduce the result. CTFs &amp; lab notes ctf reverse-engineering exploitation hardware iot challenges lab-notes Reverse engineering CTFs Exploitation challenges Hardware and IoT challenges Reproducible lab notes">
+          <p class="entry-meta">CTFs &amp; lab notes</p>
           <h2 class="entry-title"><a href="/writeups/reverse-engineering-and-hardware-ctfs.html">Reverse Engineering and Hardware CTFs</a></h2>
           <p class="entry-summary">Planned solutions and notes from reverse engineering, exploitation, and hardware CTF challenges, with explanations of the methods used and lessons learned.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">ctf · reverse-engineering · exploitation · hardware · iot · challenges</p>
-        </li><li class="entry" data-entry data-categories="lab" data-search="Embedded Security Home Lab Planned documentation of a small embedded security lab, combining development boards, external flash, serial access, logic analysis, and basic SDR equipment. The planned setup includes an ARM or ESP32 development board, external SPI Flash, a USB-to-TTL adapter, a logic analyzer, and a basic SDR. Future notes will document connections, test conditions, and repeatable experiments. CTFs and Lab Notes home-lab embedded iot arm esp32 spi-flash usb-to-ttl uart logic-analyzer sdr ARM and ESP32 development boards External SPI Flash USB-to-TTL and UART Logic analyzer Basic SDR">
-          <p class="entry-meta">CTFs and Lab Notes</p>
+        </li><li class="entry" data-entry data-categories="lab" data-search="Embedded Security Home Lab Planned documentation of a small embedded security lab, combining development boards, external flash, serial access, logic analysis, and basic SDR equipment. The planned setup includes an ARM or ESP32 development board, external SPI Flash, a USB-to-TTL adapter, a logic analyzer, and a basic SDR. Future notes will document connections, test conditions, and repeatable experiments. CTFs &amp; lab notes home-lab embedded iot arm esp32 spi-flash usb-to-ttl uart logic-analyzer sdr ARM and ESP32 development boards External SPI Flash USB-to-TTL and UART Logic analyzer Basic SDR">
+          <p class="entry-meta">CTFs &amp; lab notes</p>
           <h2 class="entry-title"><a href="/writeups/embedded-security-home-lab.html">Embedded Security Home Lab</a></h2>
           <p class="entry-summary">Planned documentation of a small embedded security lab, combining development boards, external flash, serial access, logic analysis, and basic SDR equipment.</p>
           <p class="entry-status">To be continued…</p>
           <p class="entry-topics">home-lab · embedded · iot · arm · esp32 · spi-flash</p>
+        </li><li class="entry" data-entry data-categories="embedded" data-search="RTL Design and FPGA Verification Planned notes on Verilog SoC integration, simulation testbenches, waveform debugging, and timing-clean Vivado FPGA builds. This planned series covers practical RTL integration and verification workflows on FPGA targets, including memory-mapped peripherals, custom register interfaces, self-checking testbenches in Icarus Verilog and Verilator, GTKWave debugging, and Vivado timing constraints. Embedded systems &amp; RTL rtl verilog fpga vivado verilator iverilog gtkwave risc-v verification Verilog RTL and SoC wrappers Memory-mapped interfaces and BRAM Self-checking testbenches in Icarus Verilog and Verilator Waveform inspection with GTKWave Vivado synthesis, constraints, and timing closure">
+          <p class="entry-meta">Embedded systems &amp; RTL</p>
+          <h2 class="entry-title"><a href="/writeups/rtl-design-and-fpga-verification.html">RTL Design and FPGA Verification</a></h2>
+          <p class="entry-summary">Planned notes on Verilog SoC integration, simulation testbenches, waveform debugging, and timing-clean Vivado FPGA builds.</p>
+          <p class="entry-status">To be continued…</p>
+          <p class="entry-topics">rtl · verilog · fpga · vivado · verilator · iverilog</p>
+        </li><li class="entry" data-entry data-categories="embedded" data-search="Microcontroller Peripherals and Bare-Metal C Planned notes on non-blocking firmware architecture, timers, interrupts, PWM, ADC, and serial buses across embedded microcontrollers. This planned series examines bare-metal C and C++ firmware patterns on microcontrollers such as Arduino and Silicon Labs EFM8, focusing on interrupt-driven sensing, hardware timers, software and PCA PWM, SPI display driving, and deterministic non-blocking control loops. Embedded systems &amp; RTL embedded microcontrollers bare-metal c c++ interrupts pwm spi efm8 arduino Non-blocking control loops and scheduling Interrupts and hardware timers PWM motor control and ADC sampling SPI, UART, and I2C peripheral drivers Bare-metal C/C++ on ARM, AVR, and 8051">
+          <p class="entry-meta">Embedded systems &amp; RTL</p>
+          <h2 class="entry-title"><a href="/writeups/microcontroller-peripherals-and-bare-metal-c.html">Microcontroller Peripherals and Bare-Metal C</a></h2>
+          <p class="entry-summary">Planned notes on non-blocking firmware architecture, timers, interrupts, PWM, ADC, and serial buses across embedded microcontrollers.</p>
+          <p class="entry-status">To be continued…</p>
+          <p class="entry-topics">embedded · microcontrollers · bare-metal · c · c++ · interrupts</p>
+        </li><li class="entry" data-entry data-categories="systems" data-search="Linux Wireless and Driver Debugging Planned notes on troubleshooting Wi-Fi stacks across firmware, kernel drivers, and IEEE 802.11 packet captures on Linux. This planned series documents practical debugging workflows across the Linux wireless stack, combining IEEE 802.11 packet inspection in Wireshark, hostapd test setups, iwlwifi driver logs, and firmware state-transition analysis. Systems &amp; tooling linux wifi 802.11 wireshark hostapd iwlwifi drivers debugging IEEE 802.11 capture analysis with Wireshark Linux wireless testbeds with hostapd and iwlwifi Kernel and firmware log correlation Diagnosing wireless state-transition failures">
+          <p class="entry-meta">Systems &amp; tooling</p>
+          <h2 class="entry-title"><a href="/writeups/linux-wireless-and-driver-debugging.html">Linux Wireless and Driver Debugging</a></h2>
+          <p class="entry-summary">Planned notes on troubleshooting Wi-Fi stacks across firmware, kernel drivers, and IEEE 802.11 packet captures on Linux.</p>
+          <p class="entry-status">To be continued…</p>
+          <p class="entry-topics">linux · wifi · 802.11 · wireshark · hostapd · iwlwifi</p>
+        </li><li class="entry" data-entry data-categories="systems" data-search="Validation Automation and Telemetry Pipelines Planned notes on building repeatable log parsers, regression detectors, and automated data pipelines for multi-system hardware labs. This planned series covers engineering tooling for large-scale system validation, including configurable log analysis, Python automation, SQL queries, and Airflow pipelines for telemetry triage and regression tracking. Systems &amp; tooling python automation telemetry sql airflow log-analysis validation tooling Scenario-based log parsing and CSV reporting Python test automation and lab orchestration Telemetry analysis with SQL and Airflow Automated regression detection and bug triage">
+          <p class="entry-meta">Systems &amp; tooling</p>
+          <h2 class="entry-title"><a href="/writeups/validation-automation-and-telemetry-pipelines.html">Validation Automation and Telemetry Pipelines</a></h2>
+          <p class="entry-summary">Planned notes on building repeatable log parsers, regression detectors, and automated data pipelines for multi-system hardware labs.</p>
+          <p class="entry-status">To be continued…</p>
+          <p class="entry-topics">python · automation · telemetry · sql · airflow · log-analysis</p>
         </li></ul>
     <div id="no-results" hidden><h2>No matching entries</h2><p>Try a different term or return to all topics.</p><button type="button" data-reset>Clear search and filters</button></div>
   </main>
   <footer class="site-footer" id="contact">
     <div class="container">
-      <div>
-        <p>Omer Nachmani <span aria-hidden="true">/</span> Security research and technical notes</p>
-        <p class="muted">&copy; 2026 Omer Nachmani. Original template by <a href="https://html5up.net/">HTML5 UP</a>. <a href="/LICENSE.txt">License</a>.</p>
-      </div>
+      <p>&copy; 2026 Omer Nachmani</p>
       <nav class="footer-links" aria-label="Profile links">
         <a href="https://github.com/OmerNachmani">GitHub</a>
         <a href="https://www.linkedin.com/in/omer-nachmani/">LinkedIn</a>

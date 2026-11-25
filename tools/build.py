@@ -16,14 +16,12 @@ ROOT = Path(__file__).resolve().parents[1]
 ORIGIN = "https://omernachmani.github.io"
 PENDING = "To be continued…"
 CATEGORIES = {
-    "reverse": "Reverse Engineering and Exploitation",
-    "hardware": "Embedded, IoT and Hardware Security",
-    "application": "Penetration Testing and Application Security",
-    "lab": "CTFs and Lab Notes",
-}
-FILTER_LABELS = {
-    "reverse": "Reverse engineering", "hardware": "Embedded and hardware",
-    "application": "Application security", "lab": "CTFs and lab notes",
+    "reverse": "Reverse engineering",
+    "hardware": "Embedded & hardware security",
+    "application": "Application security",
+    "embedded": "Embedded systems & RTL",
+    "systems": "Systems & tooling",
+    "lab": "CTFs & lab notes",
 }
 
 
@@ -45,8 +43,13 @@ def asset_version(path: str) -> str:
 
 
 def page(title: str, description: str, route: str, body: str, active: str, indexable: bool = True) -> str:
-    links = [("Overview", "/", "home"), ("Research", "/research/", "research"),
-             ("Writeups", "/writeups/", "writeups"), ("About", "/about.html", "about")]
+    links = [
+        ("Overview", "/", "home"),
+        ("Research", "/research/", "research"),
+        ("Projects", "/projects/", "projects"),
+        ("Writeups", "/writeups/", "writeups"),
+        ("About", "/about.html", "about"),
+    ]
     navigation = "\n        ".join(
         f'<a href="{href}"' + (' aria-current="page"' if key == active else '') + f'>{label}</a>'
         for label, href, key in links
@@ -104,7 +107,7 @@ def publication_label(entry: dict) -> str:
 
 def writeup_index(entries: list[dict]) -> str:
     buttons = '<button type="button" data-filter="all" aria-pressed="true">All topics</button>\n'
-    buttons += "\n".join(f'<button type="button" data-filter="{key}" aria-pressed="false">{label}</button>' for key, label in FILTER_LABELS.items())
+    buttons += "\n".join(f'<button type="button" data-filter="{key}" aria-pressed="false">{esc(label)}</button>' for key, label in CATEGORIES.items())
     rows = []
     for entry in entries:
         category = CATEGORIES[entry["category"]]
@@ -119,11 +122,10 @@ def writeup_index(entries: list[dict]) -> str:
         </li>''')
     return f'''    <header class="page-intro">
       <p class="eyebrow">Technical writing</p><h1>Writeups</h1>
-      <p class="lead">Reverse engineering, exploitation, embedded and IoT security, and application security.</p>
-      <p>Planned entries are marked <em>{PENDING}</em> Current project summaries are available in <a href="/research/">Research</a>.</p>
+      <p class="lead">Reverse engineering, embedded and hardware security, application security, RTL design, embedded systems, and engineering tooling.</p>
     </header>
     <div class="writing-controls" hidden>
-      <div><label for="writeup-search">Search topics and tools</label><input id="writeup-search" type="search" placeholder="For example: firmware, GDB, UART" autocomplete="off" aria-controls="writeup-list"></div>
+      <div><label for="writeup-search">Search topics and tools</label><input id="writeup-search" type="search" placeholder="For example: firmware, RISC-V, Verilog, GDB, UART" autocomplete="off" aria-controls="writeup-list"></div>
       <div class="filter-group" role="group" aria-label="Filter writeups by area">{buttons}</div>
       <p id="filter-count" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
@@ -165,11 +167,12 @@ def writeup_body(entry: dict) -> str:
 def build() -> dict[str, str]:
     output = {}
     pages = [
-        ("index.html", "/", "home", "home", "Security research and technical notes", "Omer Nachmani's research portfolio: hardware and embedded security, RISC-V side-channel analysis, and planned technical writeups."),
-        ("research/index.html", "/research/", "research", "research", "Research", "Research and engineering projects by Omer Nachmani, including RISC-V power analysis and an Arduino timing side-channel demonstration."),
-        ("about.html", "/about.html", "about", "about", "About", "Omer Nachmani's background in hardware security research, Intel system validation, firmware and driver debugging, and electrical engineering."),
-        ("research/riscv-side-channel.html", "/research/riscv-side-channel.html", "riscv-side-channel", "research", "Power side-channel analysis on RISC-V", "A project overview of software AES-128 on PicoRV32, the CW305 and Husky platform, baseline key recovery, and planned hardware countermeasure research."),
-        ("research/timing-side-channel.html", "/research/timing-side-channel.html", "timing-side-channel", "research", "A timing side-channel demonstration", "SimpleTimingSCA: an educational Arduino and Python demonstration of timing leakage from an early-exit PIN comparison."),
+        ("index.html", "/", "home", "home", "Hardware, embedded systems, and security", "Omer Nachmani's portfolio: electrical engineering, embedded systems, RTL design, RISC-V power side-channel research, and technical writeups."),
+        ("research/index.html", "/research/", "research", "research", "Research", "Ongoing hardware security research by Omer Nachmani, including power side-channel attacks on a RISC-V processor implemented on FPGA."),
+        ("projects/index.html", "/projects/", "projects", "projects", "Projects", "Engineering and security projects by Omer Nachmani across embedded systems, microcontrollers, timing side channels, and developer tools."),
+        ("about.html", "/about.html", "about", "about", "About", "Omer Nachmani — electrical engineer with experience in Intel system validation, Wi-Fi firmware and driver debugging, embedded systems, and independent security research."),
+        ("research/riscv-side-channel.html", "/research/riscv-side-channel.html", "riscv-side-channel", "research", "Power side-channel attack on RISC-V", "A project overview of software AES-128 on PicoRV32, the CW305 and Husky platform, baseline key recovery, and hardware countermeasure research."),
+        ("projects/timing-side-channel.html", "/projects/timing-side-channel.html", "timing-side-channel", "projects", "A timing side-channel demonstration", "SimpleTimingSCA: an educational Arduino and Python demonstration of timing leakage from an early-exit PIN comparison."),
     ]
     indexable_routes = []
     for destination, route, source, active, title, description in pages:
@@ -177,7 +180,7 @@ def build() -> dict[str, str]:
         output[destination] = page(title, description, route, body, active)
         indexable_routes.append(route)
     entries = load_writeups()
-    output["writeups/index.html"] = page("Writeups", "Planned technical writeups on reverse engineering, exploitation, embedded and hardware security, penetration testing, application security, and lab work.", "/writeups/", writeup_index(entries), "writeups")
+    output["writeups/index.html"] = page("Writeups", "Technical writeups on reverse engineering, embedded and hardware security, application security, RTL design, embedded systems, systems tooling, and lab notes.", "/writeups/", writeup_index(entries), "writeups")
     indexable_routes.append("/writeups/")
     for entry in entries:
         route = writeup_route(entry)
@@ -185,7 +188,7 @@ def build() -> dict[str, str]:
         output[route.lstrip("/")] = page(entry["title"], entry["summary"], route, writeup_body(entry), "writeups", is_published)
         if is_published:
             indexable_routes.append(route)
-    not_found = '''    <header class="page-intro"><p class="eyebrow">404</p><h1>Page not found</h1><p class="lead">The page may have moved, or the address may be incomplete.</p><p>Return to the <a href="/">overview</a>, browse the <a href="/writeups/">writeup index</a>, or explore the <a href="/research/">research projects</a>.</p></header>'''
+    not_found = '''    <header class="page-intro"><p class="eyebrow">404</p><h1>Page not found</h1><p class="lead">The page may have moved, or the address may be incomplete.</p><p>Return to the <a href="/">overview</a>, browse the <a href="/projects/">project archive</a>, visit <a href="/research/">research</a>, or open the <a href="/writeups/">writeup index</a>.</p></header>'''
     output["404.html"] = page("Page not found", "The requested page could not be found.", "/404.html", not_found, "", False)
     output["sitemap.xml"] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{esc(ORIGIN + route)}</loc></url>\n' for route in indexable_routes) + '</urlset>\n'
     output["robots.txt"] = "User-agent: *\nDisallow: /content/\nDisallow: /templates/\nDisallow: /tools/\nSitemap: " + ORIGIN + "/sitemap.xml\n"

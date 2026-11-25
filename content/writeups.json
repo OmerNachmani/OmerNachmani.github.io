@@ -347,5 +347,125 @@
       "sdr"
     ],
     "related": []
+  },
+  {
+    "slug": "rtl-design-and-fpga-verification",
+    "title": "RTL Design and FPGA Verification",
+    "category": "embedded",
+    "status": "planned",
+    "summary": "Planned notes on Verilog SoC integration, simulation testbenches, waveform debugging, and timing-clean Vivado FPGA builds.",
+    "scope": "This planned series covers practical RTL integration and verification workflows on FPGA targets, including memory-mapped peripherals, custom register interfaces, self-checking testbenches in Icarus Verilog and Verilator, GTKWave debugging, and Vivado timing constraints.",
+    "topics": [
+      "Verilog RTL and SoC wrappers",
+      "Memory-mapped interfaces and BRAM",
+      "Self-checking testbenches in Icarus Verilog and Verilator",
+      "Waveform inspection with GTKWave",
+      "Vivado synthesis, constraints, and timing closure"
+    ],
+    "tags": [
+      "rtl",
+      "verilog",
+      "fpga",
+      "vivado",
+      "verilator",
+      "iverilog",
+      "gtkwave",
+      "risc-v",
+      "verification"
+    ],
+    "related": [
+      {
+        "href": "/research/riscv-side-channel.html",
+        "label": "Power side-channel attack on RISC-V"
+      }
+    ]
+  },
+  {
+    "slug": "microcontroller-peripherals-and-bare-metal-c",
+    "title": "Microcontroller Peripherals and Bare-Metal C",
+    "category": "embedded",
+    "status": "planned",
+    "summary": "Planned notes on non-blocking firmware architecture, timers, interrupts, PWM, ADC, and serial buses across embedded microcontrollers.",
+    "scope": "This planned series examines bare-metal C and C++ firmware patterns on microcontrollers such as Arduino and Silicon Labs EFM8, focusing on interrupt-driven sensing, hardware timers, software and PCA PWM, SPI display driving, and deterministic non-blocking control loops.",
+    "topics": [
+      "Non-blocking control loops and scheduling",
+      "Interrupts and hardware timers",
+      "PWM motor control and ADC sampling",
+      "SPI, UART, and I2C peripheral drivers",
+      "Bare-metal C/C++ on ARM, AVR, and 8051"
+    ],
+    "tags": [
+      "embedded",
+      "microcontrollers",
+      "bare-metal",
+      "c",
+      "c++",
+      "interrupts",
+      "pwm",
+      "spi",
+      "efm8",
+      "arduino"
+    ],
+    "related": [
+      {
+        "href": "/projects/",
+        "label": "Embedded projects archive"
+      }
+    ]
+  },
+  {
+    "slug": "linux-wireless-and-driver-debugging",
+    "title": "Linux Wireless and Driver Debugging",
+    "category": "systems",
+    "status": "planned",
+    "summary": "Planned notes on troubleshooting Wi-Fi stacks across firmware, kernel drivers, and IEEE 802.11 packet captures on Linux.",
+    "scope": "This planned series documents practical debugging workflows across the Linux wireless stack, combining IEEE 802.11 packet inspection in Wireshark, hostapd test setups, iwlwifi driver logs, and firmware state-transition analysis.",
+    "topics": [
+      "IEEE 802.11 capture analysis with Wireshark",
+      "Linux wireless testbeds with hostapd and iwlwifi",
+      "Kernel and firmware log correlation",
+      "Diagnosing wireless state-transition failures"
+    ],
+    "tags": [
+      "linux",
+      "wifi",
+      "802.11",
+      "wireshark",
+      "hostapd",
+      "iwlwifi",
+      "drivers",
+      "debugging"
+    ],
+    "related": []
+  },
+  {
+    "slug": "validation-automation-and-telemetry-pipelines",
+    "title": "Validation Automation and Telemetry Pipelines",
+    "category": "systems",
+    "status": "planned",
+    "summary": "Planned notes on building repeatable log parsers, regression detectors, and automated data pipelines for multi-system hardware labs.",
+    "scope": "This planned series covers engineering tooling for large-scale system validation, including configurable log analysis, Python automation, SQL queries, and Airflow pipelines for telemetry triage and regression tracking.",
+    "topics": [
+      "Scenario-based log parsing and CSV reporting",
+      "Python test automation and lab orchestration",
+      "Telemetry analysis with SQL and Airflow",
+      "Automated regression detection and bug triage"
+    ],
+    "tags": [
+      "python",
+      "automation",
+      "telemetry",
+      "sql",
+      "airflow",
+      "log-analysis",
+      "validation",
+      "tooling"
+    ],
+    "related": [
+      {
+        "href": "/projects/",
+        "label": "Project archive"
+      }
+    ]
   }
 ]

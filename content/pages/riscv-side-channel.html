@@ -1,51 +1,53 @@
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/research/">Research</a><span aria-hidden="true"> / </span><span>RISC-V side-channel analysis</span></nav>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/research/">Research</a><span aria-hidden="true"> / </span><span>RISC-V side-channel attack</span></nav>
     <header class="article-header">
       <p class="eyebrow">Hardware security · Project overview</p>
-      <h1>Power side-channel analysis on RISC-V</h1>
-      <p class="lead">Studying the power leakage of software AES-128 running on a processor implemented on FPGA.</p>
+      <h1>Power side-channel attack on RISC-V</h1>
+      <p class="lead">Studying power leakage and physical key recovery on software AES-128 running on a RISC-V processor implemented on FPGA.</p>
       <p class="entry-meta">Omer Nachmani · B.Sc. final project · Ongoing research</p>
     </header>
     <div class="article-layout">
       <article class="prose">
         <section id="overview">
           <h2>Overview</h2>
-          <p>This project examines power leakage from software AES-128 executed by a PicoRV32 RISC-V processor on a CW305 FPGA. The processor runs the encryption code as software, so the study includes the behavior of the CPU and its surrounding hardware interfaces.</p>
-          <p>I developed the RTL integration and verification setup to establish a baseline for investigating hardware changes intended to reduce the leakage.</p>
+          <p>This B.Sc. final project investigates power side-channel attacks against software AES-128 executed on a PicoRV32 RISC-V processor running on a ChipWhisperer CW305 Artix-7 FPGA. Because encryption runs as unoptimized C firmware on the CPU rather than in a dedicated hardware core, the measured power trace captures instruction execution, memory accesses, and surrounding SoC activity.</p>
+          <p>The platform integrates PicoRV32 (<code>RV32IM</code> with hardware multiplication enabled) with a 32 KiB unified byte-writable BRAM holding program code, data, and host plaintext/ciphertext mailboxes, a memory-mapped hardware trigger and completion unit at <code>0xFF000000</code>, and a custom <code>RSCV</code> USB register bank with build-identity checks before every capture session.</p>
         </section>
         <section id="platform">
           <h2>Experimental platform</h2>
           <table>
-            <caption>Components of the current research platform</caption>
+            <caption>Components and measurement configuration of the research platform</caption>
             <thead><tr><th scope="col">Component</th><th scope="col">Implementation</th></tr></thead>
             <tbody>
-              <tr><th scope="row">Processor</th><td>PicoRV32 RISC-V</td></tr>
-              <tr><th scope="row">Workload</th><td>Software AES-128</td></tr>
-              <tr><th scope="row">FPGA target</th><td>ChipWhisperer CW305, Artix-7</td></tr>
-              <tr><th scope="row">Measurement equipment</th><td>ChipWhisperer Husky</td></tr>
-              <tr><th scope="row">Development and verification</th><td>RTL integration, Vivado, Verilator, GTKWave</td></tr>
+              <tr><th scope="row">Processor and memory</th><td>PicoRV32 (<code>RV32IM</code>, MUL enabled) with 32 KiB unified byte-writable BRAM and mailbox ABI</td></tr>
+              <tr><th scope="row">Workload</th><td>Software FIPS-197 AES-128 (<code>-O0</code>, ~181,092 cycles full encryption; 1,865-cycle first-round SubBytes trigger window)</td></tr>
+              <tr><th scope="row">FPGA target</th><td>ChipWhisperer CW305 (Artix-7 <code>XC7A100T</code>), PLL1 at 10 MHz, 1.0 V VCCINT (~2,003 LUTs, 1,656 FFs, 16 RAMB36)</td></tr>
+              <tr><th scope="row">Capture equipment</th><td>ChipWhisperer Husky (12-bit ADC at 40 MS/s, 34 dB gain, 16,000 samples/trace, memory-mapped trigger)</td></tr>
+              <tr><th scope="row">Verification and tooling</th><td>Custom RTL wrappers and register bank, Icarus Verilog, Verilator, GTKWave, Vivado, RISC-V GCC, Python CPA pipeline</td></tr>
             </tbody>
           </table>
+          <p>Before physical acquisition, the SoC and register path were verified in simulation against four OpenSSL AES known-answer vectors and 78 register-protocol checks, followed by timing-clean routed bitstreams and four hardware bring-up checkpoints on the CW305 confirming cycle-exact execution and trigger timing.</p>
         </section>
         <section id="baseline">
-          <h2>Baseline results</h2>
-          <p>The existing baseline recovered all 16 AES-128 key bytes in two sessions. Ciphertext correctness was checked independently.</p>
-          <p>The completed work includes processor and hardware-interface integration, RTL development, verification, and the baseline research. I performed the research and implementation completed to date.</p>
+          <h2>Baseline attack results</h2>
+          <p>Two independent physical acquisition sessions of 1,024 traces each were captured on the CW305 using disjoint balanced plaintext schedules, with a full USB reset and bitstream reprogramming between sessions. Attack traces targeted the 1,865-cycle first-round SubBytes window (7,460 ADC samples at 40 MS/s) with no trace alignment or preprocessing.</p>
+          <p>First-round Correlation Power Analysis (CPA) using the Hamming-weight S-Box leakage model <code>HW(SBox(plaintext[i] XOR key[i]))</code> recovered all <strong>16/16 AES-128 key bytes</strong> in both sessions, reaching full-key recovery at <strong>96 traces</strong> (winning <code>|r|</code> between 0.56 and 0.66 versus runner-up values near 0.18, with 16/16 agreement across disjoint 512-trace halves).</p>
+          <p>Peak correlation points occurred evenly spaced by <strong>436 ADC samples (109 target cycles)</strong> at identical positions across both sessions, directly matching the 16 byte-wise S-Box table lookups in software. Independent validation confirmed <strong>1,024/1,024</strong> ciphertext reproductions per session and <strong>16/16</strong> additional held-out ciphertexts reproduced using only the recovered key.</p>
         </section>
         <section id="next-stage">
           <h2>Hardware countermeasures</h2>
           <p class="entry-status">To be continued…</p>
-          <p>The next stage is to implement and compare hardware additions intended to reduce exposure to power side-channel analysis. Planned comparisons will account for protection, execution time, and FPGA resource use.</p>
-          <p>Hardware protection comparisons remain pending. Candidate mechanisms and combinations will be investigated in later stages.</p>
+          <p>The current stage evaluates hardware protection architectures integrated into the RISC-V processor to defend software AES-128 against power side-channel attacks. Candidate directions under assessment include dummy execution and controlled power-noise hiding, randomized pipeline or memory timing delays, share-aware shadow register storage and operand masking, temporal shuffling, and custom RISC-V or vector extensions.</p>
+          <p>Selected prototypes will be evaluated against matched controls to compare leakage reduction and recovery effort against execution time and FPGA resource cost.</p>
         </section>
         <section id="writeup">
           <h2>Technical writeup</h2>
           <p class="entry-status">To be continued…</p>
-          <p>The detailed methodology, capture setup, analysis, and countermeasure results will be documented as the study develops.</p>
+          <p>The detailed methodology, capture setup, attack results, and countermeasure evaluations will be documented as the study develops.</p>
           <p>Related planned work: <a href="/writeups/fault-injection-and-side-channel-studies.html">Fault injection and side-channel studies</a>.</p>
         </section>
       </article>
       <aside class="toc" aria-labelledby="contents-title">
         <h2 id="contents-title">On this page</h2>
-        <nav aria-label="Article contents"><ol><li><a href="#overview">Overview</a></li><li><a href="#platform">Experimental platform</a></li><li><a href="#baseline">Baseline results</a></li><li><a href="#next-stage">Hardware countermeasures</a></li><li><a href="#writeup">Technical writeup</a></li></ol></nav>
+        <nav aria-label="Article contents"><ol><li><a href="#overview">Overview</a></li><li><a href="#platform">Experimental platform</a></li><li><a href="#baseline">Baseline attack results</a></li><li><a href="#next-stage">Hardware countermeasures</a></li><li><a href="#writeup">Technical writeup</a></li></ol></nav>
       </aside>
     </div>
