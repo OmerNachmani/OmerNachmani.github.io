@@ -194,7 +194,7 @@ def writeup_body(entry: dict) -> str:
 def build() -> dict[str, str]:
     output = {}
     pages = [
-        ("index.html", "/", "home", "home", "Electrical Engineer and Independent Security Researcher", "Omer Nachmani's portfolio: electrical engineering, embedded systems, RTL design, RISC-V power side-channel research, and technical writeups."),
+        ("index.html", "/", "home", "home", "Electrical Engineer & Independent Security Researcher", "Omer Nachmani's portfolio: electrical engineering, embedded systems, RTL design, RISC-V power side-channel research, and technical writeups."),
         ("research/index.html", "/research/", "research", "research", "Research", "Ongoing hardware security research by Omer Nachmani, including power side-channel attacks on a RISC-V processor implemented on FPGA."),
         ("projects/index.html", "/projects/", "projects", "projects", "Projects", "Engineering and security projects by Omer Nachmani across embedded systems, microcontrollers, timing side channels, and developer tools."),
         ("about.html", "/about.html", "about", "about", "About", "Omer Nachmani — electrical engineer with experience in Intel system validation, Wi-Fi firmware and driver debugging, embedded systems, and independent security research."),
